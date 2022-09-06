@@ -99,6 +99,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@astrojs/react@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@astrojs/react@npm:1.1.1"
+  dependencies:
+    "@babel/core": ">=7.0.0-0 <8.0.0"
+    "@babel/plugin-transform-react-jsx": ^7.17.12
+  peerDependencies:
+    react: ^17.0.2 || ^18.0.0
+    react-dom: ^17.0.2 || ^18.0.0
+  checksum: e7e51ae9506d77cf4248b8ec5aa1ad2a76ae97b16708c90a662128d2a923294e6e67f3580fcfcfa51d7669d8a00d00750cc32ef3303b596f9596d615fde59151
+  languageName: node
+  linkType: hard
+
 "@astrojs/telemetry@npm:^1.0.0":
   version: 1.0.0
   resolution: "@astrojs/telemetry@npm:1.0.0"
@@ -140,7 +153,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.18.2":
+"@babel/core@npm:>=7.0.0-0 <8.0.0, @babel/core@npm:^7.18.2":
   version: 7.19.0
   resolution: "@babel/core@npm:7.19.0"
   dependencies:
@@ -422,14 +435,6 @@ __metadata:
   conditions: os=linux & cpu=loong64
   languageName: node
   linkType: hard
-
-"@example/basics@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@example/basics@workspace:."
-  dependencies:
-    astro: ^1.1.5
-  languageName: unknown
-  linkType: soft
 
 "@gar/promisify@npm:^1.1.3":
   version: 1.1.3
@@ -2415,7 +2420,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-tokens@npm:^4.0.0":
+"js-tokens@npm:^3.0.0 || ^4.0.0, js-tokens@npm:^4.0.0":
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
   checksum: 8a95213a5a77deb6cbe94d86340e8d9ace2b93bc367790b260101d2f36a2eaf4e4e22d9fa9cf459b38af3a32fb4190e638024cf82ec95ef708680e405ea7cc78
@@ -2487,6 +2492,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lensmo-fe@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "lensmo-fe@workspace:."
+  dependencies:
+    "@astrojs/react": ^1.1.1
+    astro: ^1.1.5
+    react: ^18.0.0
+    react-dom: ^18.0.0
+  languageName: unknown
+  linkType: soft
+
 "lilconfig@npm:^2.0.5":
   version: 2.0.6
   resolution: "lilconfig@npm:2.0.6"
@@ -2538,6 +2554,17 @@ __metadata:
   version: 3.0.1
   resolution: "longest-streak@npm:3.0.1"
   checksum: 3b59c4c04ce3c70f137e339c10d574026fa3a711c45dc0e69a63a2c0ac981e57f837e1d5b64b991eee5234c4fa46fa10886a20626fb739ed3b04b77bcf6d14a8
+  languageName: node
+  linkType: hard
+
+"loose-envify@npm:^1.1.0":
+  version: 1.4.0
+  resolution: "loose-envify@npm:1.4.0"
+  dependencies:
+    js-tokens: ^3.0.0 || ^4.0.0
+  bin:
+    loose-envify: cli.js
+  checksum: 6517e24e0cad87ec9888f500c5b5947032cdfe6ef65e1c1936a0c48a524b81e65542c9c3edc91c97d5bddc806ee2a985dbc79be89215d613b1de5db6d1cfe6f4
   languageName: node
   linkType: hard
 
@@ -3782,6 +3809,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-dom@npm:^18.0.0":
+  version: 18.2.0
+  resolution: "react-dom@npm:18.2.0"
+  dependencies:
+    loose-envify: ^1.1.0
+    scheduler: ^0.23.0
+  peerDependencies:
+    react: ^18.2.0
+  checksum: 7d323310bea3a91be2965f9468d552f201b1c27891e45ddc2d6b8f717680c95a75ae0bc1e3f5cf41472446a2589a75aed4483aee8169287909fcd59ad149e8cc
+  languageName: node
+  linkType: hard
+
+"react@npm:^18.0.0":
+  version: 18.2.0
+  resolution: "react@npm:18.2.0"
+  dependencies:
+    loose-envify: ^1.1.0
+  checksum: 88e38092da8839b830cda6feef2e8505dec8ace60579e46aa5490fc3dc9bba0bd50336507dc166f43e3afc1c42939c09fe33b25fae889d6f402721dcd78fca1b
+  languageName: node
+  linkType: hard
+
 "readable-stream@npm:^3.4.0, readable-stream@npm:^3.6.0":
   version: 3.6.0
   resolution: "readable-stream@npm:3.6.0"
@@ -4071,6 +4119,15 @@ __metadata:
   dependencies:
     suf-log: ^2.5.3
   checksum: 967d789635359cf829f029595789d5e095dd0bb3e57b62d2e3ba7e013c68a89587f8c843ffcdaba0302859c4d69f0a3258f6d2131caf661775dd31868e8ae830
+  languageName: node
+  linkType: hard
+
+"scheduler@npm:^0.23.0":
+  version: 0.23.0
+  resolution: "scheduler@npm:0.23.0"
+  dependencies:
+    loose-envify: ^1.1.0
+  checksum: d79192eeaa12abef860c195ea45d37cbf2bbf5f66e3c4dcd16f54a7da53b17788a70d109ee3d3dde1a0fd50e6a8fc171f4300356c5aee4fc0171de526bf35f8a
   languageName: node
   linkType: hard
 
