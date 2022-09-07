@@ -10,7 +10,12 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^1.1.5"
+    "@rainbow-me/rainbowkit": "^0.5.1",
+    "astro": "^1.1.5",
+    "ethers": "^5.7.0",
+    "nanostores": "^0.6.0",
+    "postcss": "^8.4.16",
+    "wagmi": "^0.6.4"
   },
   "devDependencies": {
     "@astrojs/react": "^1.1.1",
@@ -19,5 +24,8 @@
     "daisyui": "^2.25.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
+  },
+  "peerDependencies": {
+    "autoprefixer": "^10.4.8"
   }
 }
