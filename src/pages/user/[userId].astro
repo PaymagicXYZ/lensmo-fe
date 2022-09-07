@@ -1,0 +1,25 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { supportedNetworks } from "../../../utils/constants";
+const [network, user] = Astro.url.pathname.split("/")[2].split(":");
+const supported = supportedNetworks.includes(network);
+---
+
+<Layout title="Lensmo-User">
+  {
+    supported ? (
+      <div>
+        <h2>
+          @{user} on {network}
+        </h2>
+      </div>
+    ) : (
+      <div>
+        <h1>
+          Network {network} is not supported, please check our documentation for
+          the supported networks
+        </h1>
+      </div>
+    )
+  }
+</Layout>
