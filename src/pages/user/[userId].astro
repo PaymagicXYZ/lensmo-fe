@@ -1,17 +1,39 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import Modal from "../../components/Send/Modal.astro";
+import { Icon } from "astro-icon";
 import { supportedNetworks } from "../../../utils/constants";
 const [network, user] = Astro.url.pathname.split("/")[2].split(":");
-const supported = supportedNetworks.includes(network);
+const networkInfo = supportedNetworks.filter((e) => e.name === network)[0];
 ---
 
 <Layout title="Lensmo-User">
   {
-    supported ? (
-      <div>
-        <h2>
-          @{user} on {network}
-        </h2>
+    networkInfo ? (
+      <div class="card w-full bg-base-100 shadow-xl">
+        <div class="card-body">
+          <div class="avatar">
+            <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+              <img src="https://placeimg.com/192/192/people" />
+            </div>
+          </div>
+          <h2 class="card-title">
+            @{user} on
+            <Icon class="w-6" name={networkInfo.logo} />
+            {network}
+          </h2>
+          <div class="card-actions">
+            <label class="btn btn-primary" for="send">
+              <Icon name="carbon:share-knowledge" class="w-6" />
+              Give tokens
+            </label>
+            <button class="btn btn-primary">
+              <Icon name="carbon:piggy-bank" class="w-6" />
+              Claim
+            </button>
+          </div>
+        </div>
+        <Modal id="send" />
       </div>
     ) : (
       <div>

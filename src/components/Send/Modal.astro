@@ -1,0 +1,21 @@
+---
+const { id } = Astro.props;
+import { Connect } from "../Connect";
+---
+
+<div>
+  <input type="checkbox" id={id} class="modal-toggle" />
+  <div class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box">
+      <Connect client:load />
+      <label for={id} class="btn btn-sm btn-circle absolute right-2 top-2"
+        >✕</label
+      >
+      <h3 class="font-bold text-lg">Send</h3>
+      <div class="tabs w-full">
+        <a class="tab tab-bordered tab-active w-1/2">Token</a>
+        <a class="tab tab-bordered w-1/2 disabled">NFT (Coming soon)</a>
+      </div>
+    </div>
+  </div>
+</div>
