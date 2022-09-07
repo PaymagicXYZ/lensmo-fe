@@ -2,16 +2,24 @@
 import Layout from "../layouts/Layout.astro";
 import { Connect } from "../components/Connect";
 import Search from "../components/Search.astro";
+import { Icon } from "astro-icon";
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="Welcome to Lensmo.">
   <main>
     <Connect client:only="react" />
     <h1>Welcome to <span class="text-gradient">Lensmo</span></h1>
     <Search />
     <div class="flex">
-      <button class="w-1/2 m-2 btn btn-primary">Send</button>
-      <button class="w-1/2 m-2 btn btn-primary">Airdrop</button>
+      <button class="w-1/2 m-2 btn btn-primary"
+        ><Icon class="w-6" name="carbon:send-alt-filled" />Send</button
+      >
+      <button class="w-1/2 m-2 btn btn-primary"
+        ><Icon
+          class="w-6"
+          name="icon-park-outline:hot-air-balloon"
+        />Airdrop</button
+      >
     </div>
   </main>
 </Layout>
