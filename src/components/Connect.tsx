@@ -29,9 +29,7 @@ export const App = () => {
 export const Connect = () => {
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-        <App />
-      </RainbowKitProvider>
+      <RainbowKitProvider chains={chains} children={<App />} />
     </WagmiConfig>
   );
 };
