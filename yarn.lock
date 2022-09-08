@@ -5391,6 +5391,8 @@ __metadata:
     ethers: ^5.7.0
     nanostores: ^0.6.0
     postcss: ^8.4.16
+    prettier: ^2.7.1
+    prettier-plugin-astro: ^0.5.4
     react: ^18.0.0
     react-dom: ^18.0.0
     wagmi: ^0.6.4
@@ -7106,7 +7108,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-astro@npm:^0.5.3":
+"prettier-plugin-astro@npm:^0.5.3, prettier-plugin-astro@npm:^0.5.4":
   version: 0.5.4
   resolution: "prettier-plugin-astro@npm:0.5.4"
   dependencies:
