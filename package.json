@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "^0.5.1",
+    "@supabase/supabase-js": "^1.35.6",
     "astro": "^1.1.5",
     "astro-icon": "^0.7.3",
     "ethers": "^5.7.0",
