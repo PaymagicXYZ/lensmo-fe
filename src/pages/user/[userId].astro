@@ -17,12 +17,12 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
       </a>
       {
         networkInfo ? (
-          userInfo.data ? (
+          userInfo ? (
             <div>
               <a href={networkInfo.url + user} target="_blank">
                 <div class="avatar">
                   <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                    <img src={userInfo.data.profile_image_url} />
+                    <img src={userInfo.image} />
                   </div>
                 </div>
               </a>

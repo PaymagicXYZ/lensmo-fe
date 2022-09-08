@@ -12,9 +12,43 @@ const twitter = {
           method: "GET",
           headers: { Authorization: `Bearer ${this.apiKey}` },
         }
-      ).then((response) => response.json());
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          return {
+            name: data.data.name,
+            description: data.data.description,
+            image: data.data.profile_image_url,
+          };
+        });
     };
   },
 };
 
-export const supportedNetworks = [twitter];
+const github = {
+  name: "github",
+  logo: "icon-park:github",
+  apiKey: import.meta.env.GITHUB_TOKEN,
+  apiUrl: "https://api.github.com",
+  url: "https://github.com/",
+  get resolveUser() {
+    return async (userName: string) => {
+      return fetch(`${this.apiUrl}/users/${userName}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/vnd.github+json",
+          Authorization: `Bearer ${this.apiKey}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          return {
+            name: data.name,
+            description: data.bio,
+            image: data.avatar_url,
+          };
+        });
+    };
+  },
+};
+export const supportedNetworks = [twitter, github];
