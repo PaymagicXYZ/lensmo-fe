@@ -5,10 +5,10 @@ import { TransferToken } from "./TransferToken";
 ---
 
 <Modal title="Send" id="send">
-  <Connect client:load slot="before-title" />
+  <Connect client:only="react" slot="before-title" />
   <div class="tabs w-full">
     <a class="tab tab-bordered tab-active w-1/2">Token</a>
     <a class="tab tab-bordered w-1/2 disabled">NFT (Coming soon)</a>
   </div>
-  <TransferToken client:load />
+  <TransferToken client:only="react" />
 </Modal>
