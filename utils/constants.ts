@@ -3,6 +3,7 @@ const twitter = {
   logo: "icon-park:twitter",
   apiKey: import.meta.env.TWITTER_TOKEN,
   apiUrl: "https://api.twitter.com/2",
+  url: "https://twitter.com/",
   get resolveUser() {
     return async (userName: string) => {
       return fetch(
