@@ -10,8 +10,11 @@ import { Icon } from "astro-icon";
   <h1>Welcome to <span class="text-gradient">Lensmo</span></h1>
   <Search />
   <div class="flex">
-    <button class="w-1/2 m-2 btn btn-primary"
-      ><Icon class="w-6" name="carbon:send-alt-filled" />Send</button
+    <button
+      class="w-1/2 m-2 btn btn-primary"
+      onclick="window.location.href = `/user/${getElementById('userId').value}`"
+    >
+      <Icon class="w-6" name="carbon:send-alt-filled" />Send</button
     >
     <button class="w-1/2 m-2 btn btn-primary"
       ><Icon
