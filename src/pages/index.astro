@@ -9,18 +9,16 @@ import { Icon } from "astro-icon";
   <Connect client:only="react" />
   <h1>Welcome to <span class="text-gradient">Lensmo</span></h1>
   <Search />
-  <div class="flex">
+  <div class="flex w-full">
     <button
-      class="w-1/2 m-2 btn btn-primary"
+      class="w-1/2 btn btn-primary"
       onclick="window.location.href = `/user/${getElementById('userId').value}`"
     >
       <Icon class="w-6" name="carbon:send-alt-filled" />Send</button
     >
-    <button class="w-1/2 m-2 btn btn-primary"
-      ><Icon
-        class="w-6"
-        name="icon-park-outline:hot-air-balloon"
-      />Airdrop</button
+    <button class="w-1/2 btn btn-primary" disabled
+      ><Icon class="w-6" name="icon-park-outline:hot-air-balloon" />Airdrop
+      (coming soon)</button
     >
   </div>
 </Layout>
