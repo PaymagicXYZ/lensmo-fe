@@ -6,37 +6,47 @@ import { Icon } from "astro-icon";
 import { supportedNetworks } from "../../../utils/constants";
 const [network, user] = Astro.url.pathname.split("/")[2].split(":");
 const networkInfo = supportedNetworks.filter((e) => e.name === network)[0];
+const userInfo = await networkInfo.resolveUser(user);
 ---
 
 <Layout title="Lensmo-User">
   {
     networkInfo ? (
-      <div class="card w-full bg-base-100 shadow-xl">
-        <div class="card-body">
-          <div class="avatar">
-            <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-              <img src="https://placeimg.com/192/192/people" />
+      userInfo.data ? (
+        <div class="card w-full bg-base-100 shadow-xl">
+          <div class="card-body">
+            <a href="/">
+              <Icon name="eva:arrow-back-fill" class="w-8" />
+            </a>
+            <div class="avatar">
+              <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                <img src={userInfo.data.profile_image_url} />
+              </div>
+            </div>
+            <h2 class="card-title">
+              @{user} on
+              <Icon class="w-6" name={networkInfo.logo} />
+              {network}
+            </h2>
+            <div class="card-actions">
+              <label class="btn btn-primary" for="send">
+                <Icon name="carbon:share-knowledge" class="w-6" />
+                Give tokens
+              </label>
+              <label class="btn btn-primary" for="claim">
+                <Icon name="carbon:piggy-bank" class="w-6" />
+                Claim
+              </label>
             </div>
           </div>
-          <h2 class="card-title">
-            @{user} on
-            <Icon class="w-6" name={networkInfo.logo} />
-            {network}
-          </h2>
-          <div class="card-actions">
-            <label class="btn btn-primary" for="send">
-              <Icon name="carbon:share-knowledge" class="w-6" />
-              Give tokens
-            </label>
-            <label class="btn btn-primary" for="claim">
-              <Icon name="carbon:piggy-bank" class="w-6" />
-              Claim
-            </label>
-          </div>
+          <SendModal />
+          <ClaimModal />
         </div>
-        <SendModal />
-        <ClaimModal />
-      </div>
+      ) : (
+        <div>
+          <h1>Unable to find your account. Please check your username.</h1>
+        </div>
+      )
     ) : (
       <div>
         <h1>
