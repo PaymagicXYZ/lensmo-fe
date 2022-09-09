@@ -6,30 +6,33 @@ import { Icon } from "astro-icon";
 ---
 
 <Layout title="Welcome to Lensmo.">
+  <div class="container">
+  <div class="container mx-auto max-w-screen-md flex flex-col content-center">
   <Connect client:only="react" />
-  <h1>Welcome to <span class="text-gradient">Lensmo</span></h1>
+  <div class="my-4 flex flex-col content-center">
+    <h1 class="leading-none mx-auto mt-2"><span class="text-gradient">Lensmo</span></h1>
+    <h3 class="mx-auto text-slate-500">Send NFTs or tokens to <span class="italic">anyone</span>, no wallet required</h3>
+  </div>
   <Search />
-  <div class="flex w-full">
+  <div class="flex mt-2 space-x-4 mx-auto">
     <button
-      class="w-1/2 btn btn-primary"
+      class="btn btn-primary"
       onclick="window.location.href = `/user/${getElementById('userId').value}`"
     >
       <Icon class="w-6" name="carbon:send-alt-filled" />Send</button
     >
-    <button class="w-1/2 btn btn-primary" disabled
+    <button class="btn btn-primary" disabled
       ><Icon class="w-6" name="icon-park-outline:hot-air-balloon" />Airdrop
       (coming soon)</button
     >
+  </div>
+  </div>
   </div>
 </Layout>
 
 <style>
   :root {
     --astro-gradient: linear-gradient(0deg, #4f39fa, #da62c4);
-  }
-
-  h1 {
-    margin: 2rem 0;
   }
 
   .text-gradient {
