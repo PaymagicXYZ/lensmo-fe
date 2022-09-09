@@ -28,7 +28,7 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
               </a>
               <h2 class="card-title">
                 <a href={networkInfo.url + user} target="_blank">
-                  @{user}
+                  @{userInfo.name}
                 </a>
                 on
                 <Icon class="w-6" name={networkInfo.logo} />

@@ -59,4 +59,38 @@ const github = {
     };
   },
 };
-export const supportedNetworks = [twitter, github];
+
+const discord = {
+  name: "discord",
+  logo: "logos:discord-icon",
+  apiKey: import.meta.env.DISCORD_TOKEN,
+  apiUrl: "https://discord.com/api/v10",
+  url: "https://discord.com/",
+  get resolveUser() {
+    return async (userName: string) => {
+      return fetch(`${this.apiUrl}/users/${userName}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bot ${this.apiKey}`,
+          "Content-Type": "application/json; charset=UTF-8",
+          "User-Agent":
+            "DiscordBot (https://github.com/discord/discord-example-app, 1.0.0)",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.username) {
+            return {
+              name: data.username + "#" + data.discriminator,
+              description: data.banner,
+              image: `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.png?size=1024`,
+            };
+          } else {
+            return null;
+          }
+        });
+    };
+  },
+};
+
+export const supportedNetworks = [twitter, github, discord];
