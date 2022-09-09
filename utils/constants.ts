@@ -15,11 +15,15 @@ const twitter = {
       )
         .then((response) => response.json())
         .then((data) => {
-          return {
-            name: data.data.name,
-            description: data.data.description,
-            image: data.data.profile_image_url,
-          };
+          if (data.data) {
+            return {
+              name: data.data.name,
+              description: data.data.description,
+              image: data.data.profile_image_url,
+            };
+          } else {
+            return null;
+          }
         });
     };
   },
@@ -42,11 +46,15 @@ const github = {
       })
         .then((response) => response.json())
         .then((data) => {
-          return {
-            name: data.name,
-            description: data.bio,
-            image: data.avatar_url,
-          };
+          if (data.name) {
+            return {
+              name: data.name,
+              description: data.bio,
+              image: data.avatar_url,
+            };
+          } else {
+            return null;
+          }
         });
     };
   },
