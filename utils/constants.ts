@@ -83,7 +83,11 @@ const discord = {
             return {
               name: data.username + "#" + data.discriminator,
               description: data.banner,
-              image: `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.png?size=1024`,
+              image: data.avatar
+                ? `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.png?size=1024`
+                : `https://cdn.discordapp.com/embed/avatars/${
+                    data.discriminator[3] % 5
+                  }.png`,
             };
           } else {
             return null;
