@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import "@rainbow-me/rainbowkit/styles.css";
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { getDefaultWallets, RainbowKitProvider, lightTheme } from "@rainbow-me/rainbowkit";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
@@ -23,7 +23,7 @@ const wagmiClient = createClient({
 export const Web3Wrapper = (props: { children: ReactNode }) => {
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains} children={props.children} />
+      <RainbowKitProvider chains={chains} children={props.children} theme={lightTheme({accentColor: '#570DF8', borderRadius: 'medium'})} />
     </WagmiConfig>
   );
 };
