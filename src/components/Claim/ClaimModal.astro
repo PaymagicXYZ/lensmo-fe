@@ -1,9 +1,11 @@
 ---
+const { provider } = Astro.props;
 import Modal from "../Modal.astro";
+import { SignInWithProvider } from "./SignIn";
 ---
 
 <Modal title="Sign in to claim" id="claim">
   <div class="btn-group btn-group-vertical">
-    <button class="btn btn-active">Sign in with Twitter</button>
+    <SignInWithProvider provider={provider} client:load />
   </div>
 </Modal>

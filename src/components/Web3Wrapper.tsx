@@ -4,6 +4,7 @@ import { getDefaultWallets, RainbowKitProvider, lightTheme } from "@rainbow-me/r
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
+import "./Polyfill";
 
 const { chains, provider } = configureChains(
   [chain.polygon, chain.rinkeby],
