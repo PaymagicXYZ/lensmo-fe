@@ -31,13 +31,20 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
               <Icon class="w-10 inlay" name={networkInfo.logo} />
             </div>
 
-            <h2 class="card-title mx-auto">
-              <a href={networkInfo.url + user} target="_blank">
-                @{user}
-              </a>
-              on
-              <span class="capitalize">{network}</span>
-            </h2>
+            <div class="flex flex-col justify-center">
+              <h2 class="card-title mx-auto">
+                <a href={networkInfo.url + user} target="_blank">
+                  @{user}
+                </a>
+                on
+                <span class="capitalize">{network}</span>
+              </h2>
+              <h4 class="mx-auto text-slate-500">
+                <a href={networkInfo.url + user} target="_blank">
+                  View Wallet
+                </a>
+              </h4>
+            </div>
             <div class="card-actions mx-auto">
               <label class="btn btn-primary" for="send">
                 <Icon name="carbon:share-knowledge" class="w-6" />
