@@ -124,4 +124,69 @@ const ens = {
   },
 };
 
-export const supportedNetworks = [twitter, github, discord, ens];
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+const lens = {
+  name: "lens",
+  logo: "lens",
+  apiKey: import.meta.env.LENS_TOKEN,
+  apiUrl: "https://app.ens.domains/name/",
+  url: "https://www.lensfrens.xyz/",
+  get resolveUser() {
+    const apolloClient = new ApolloClient({
+      uri: "https://api.lens.dev",
+      cache: new InMemoryCache(),
+    });
+    const q = `
+  query {
+    ping
+  }
+`;
+    return async (userName: string) => {
+      userName = new RegExp(".lens$").test(userName)
+        ? userName
+        : userName + ".lens";
+      const query = `
+        query Profiles {
+        profiles(request: { handles: ["${userName}"], limit: 1 }) {
+          items {
+            id
+            name
+            ownedBy
+            picture {
+            ... on NftImage {
+              contractAddress
+              tokenId
+              uri
+              verified
+            }
+            ... on MediaSet {
+              original {
+                url
+                mimeType
+              }
+            }
+            __typename
+          }
+          }
+        }
+      }
+      `;
+      const response = await apolloClient.query({
+        query: gql(query),
+      });
+      if (response.data.profiles.items.length > 0) {
+        return {
+          name: userName,
+          description: response.data.profiles.items[0].ownedBy,
+          image: response.data.profiles.items[0].picture
+            ? response.data.profiles.items[0].picture.original.url
+            : "https://github.com/lens-protocol/brand-kit/raw/main/Logo/PNG/LENS%20LOGO_All_Icon%20Ultra%20Small.png",
+        };
+      } else {
+        return null;
+      }
+    };
+  },
+};
+
+export const supportedNetworks = [twitter, github, discord, ens, lens];
