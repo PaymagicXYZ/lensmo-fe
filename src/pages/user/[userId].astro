@@ -10,56 +10,73 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
 ---
 
 <Layout title="Lensmo-User">
-  <div class="card w-full bg-base-100 shadow-xl">
-    <div class="card-body">
+  <div
+    class="card bg-base-100 shadow-xl p-6 mx-auto w-full flex flex-col content-center"
+  >
+    <div class="flex">
       <a href="/">
         <Icon name="eva:arrow-back-fill" class="w-8" />
       </a>
-      {
-        networkInfo ? (
-          userInfo ? (
-            <div>
-              <a href={networkInfo.url + user} target="_blank">
-                <div class="avatar">
-                  <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                    <img src={userInfo.image} />
-                  </div>
-                </div>
-              </a>
-              <h2 class="card-title">
+    </div>
+    {
+      networkInfo ? (
+        userInfo ? (
+          <div class="card-body flex flex-col justify-center">
+            <div class="avatar mx-auto">
+              <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                <a href={networkInfo.url + user} target="_blank">
+                  <img src={userInfo.image} />
+                </a>
+              </div>
+              <Icon class="w-10 inlay" name={networkInfo.logo} />
+            </div>
+
+            <div class="flex flex-col justify-center">
+              <h2 class="card-title mx-auto">
                 <a href={networkInfo.url + user} target="_blank">
                   @{userInfo.name}
                 </a>
                 on
-                <Icon class="w-6" name={networkInfo.logo} />
-                {network}
+                <span class="capitalize">{network}</span>
               </h2>
               <p>{userInfo.description}</p>
-              <div class="card-actions">
-                <label class="btn btn-primary" for="send">
-                  <Icon name="carbon:share-knowledge" class="w-6" />
-                  Give tokens
-                </label>
-                <label class="btn btn-primary" for="claim">
-                  <Icon name="carbon:piggy-bank" class="w-6" />
-                  Claim
-                </label>
-              </div>
-              <SendModal />
-              <ClaimModal provider={network} />
+              <h4 class="mx-auto text-slate-500">
+                <a href={networkInfo.url + user} target="_blank">
+                  View Wallet
+                </a>
+              </h4>
             </div>
-          ) : (
-            <h2 class="card-title">
-              Unable to find your account. Please check your username.
-            </h2>
-          )
+            <div class="card-actions mx-auto">
+              <label class="btn btn-primary" for="send">
+                <Icon name="carbon:share-knowledge" class="w-6" />
+                Give tokens
+              </label>
+              <label class="btn btn-primary" for="claim">
+                <Icon name="carbon:piggy-bank" class="w-6" />
+                Claim
+              </label>
+            </div>
+            <SendModal />
+            <ClaimModal />
+          </div>
         ) : (
           <h2 class="card-title">
-            Network {network} is not supported, please check our documentation
-            for the supported networks
+            Unable to find your account. Please check your username.
           </h2>
         )
-      }
-    </div>
+      ) : (
+        <h2 class="card-title">
+          Network {network} is not supported, please check our documentation for
+          the supported networks
+        </h2>
+      )
+    }
   </div>
 </Layout>
+<style>
+  .inlay {
+    position: absolute;
+    bottom: -10px;
+    right: -5px;
+  }
+</style>
