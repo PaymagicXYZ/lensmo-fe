@@ -124,7 +124,8 @@ const ens = {
   },
 };
 
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import pkg from "@apollo/client";
+const { ApolloClient, InMemoryCache, gql } = pkg;
 const lens = {
   name: "lens",
   logo: "lens",
