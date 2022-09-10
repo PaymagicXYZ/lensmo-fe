@@ -34,6 +34,7 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
                 <Icon class="w-6" name={networkInfo.logo} />
                 {network}
               </h2>
+              <p>{userInfo.description}</p>
               <div class="card-actions">
                 <label class="btn btn-primary" for="send">
                   <Icon name="carbon:share-knowledge" class="w-6" />

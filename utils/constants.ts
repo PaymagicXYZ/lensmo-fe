@@ -1,3 +1,5 @@
+import { ethers } from "ethers";
+
 const twitter = {
   name: "twitter",
   logo: "icon-park:twitter",
@@ -97,4 +99,29 @@ const discord = {
   },
 };
 
-export const supportedNetworks = [twitter, github, discord];
+const ens = {
+  name: "ens",
+  logo: "ens",
+  apiKey: import.meta.env.ALCHEMY_ID,
+  url: "https://app.ens.domains/name/",
+  get resolveUser() {
+    return async (userName: string) => {
+      userName = new RegExp(".eth$").test(userName)
+        ? userName
+        : userName + ".eth";
+      const provider = new ethers.providers.AlchemyProvider(
+        "homestead",
+        this.apiKey
+      );
+      return {
+        name: userName,
+        description: await provider.resolveName(userName),
+        image:
+          (await provider.getAvatar(userName)) ||
+          "https://cdn-images-1.medium.com/max/1200/1*phqy7EzRlH6J2iU9_8vL0g.png",
+      };
+    };
+  },
+};
+
+export const supportedNetworks = [twitter, github, discord, ens];
