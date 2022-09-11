@@ -34,11 +34,12 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
             <div class="flex flex-col justify-center">
               <h2 class="card-title mx-auto">
                 <a href={networkInfo.url + user} target="_blank">
-                  @{user}
+                  @{userInfo.name}
                 </a>
                 on
                 <span class="capitalize">{network}</span>
               </h2>
+              <p>{userInfo.description}</p>
               <h4 class="mx-auto text-slate-500">
                 <a href={networkInfo.url + user} target="_blank">
                   View Wallet
