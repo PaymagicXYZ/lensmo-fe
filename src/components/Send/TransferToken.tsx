@@ -1,37 +1,12 @@
-import { useState, useEffect, SetStateAction } from "react";
-import { Web3Wrapper } from "../Web3Wrapper";
-import {
-  useAccount,
-  useBalance,
-  usePrepareContractWrite,
-  useContractWrite,
-  useNetwork,
-  erc20ABI,
-} from "wagmi";
+import { useState } from "react";
+import { Web3Wrapper } from "../Web3/Web3Wrapper";
+import { useAccount, useNetwork } from "wagmi";
 import {
   defaultTokenOptions,
   TokenOption,
 } from "../../../utils/defaultTokenOptions";
-
-function Transfer(props: { token: string; to: string; amount: string }) {
-  const { config, error } = usePrepareContractWrite({
-    addressOrName: props.token,
-    contractInterface: erc20ABI,
-    functionName: "transfer",
-  });
-  const { write } = useContractWrite(config);
-
-  return (
-    <>
-      <button disabled={!write} onClick={() => write?.()}>
-        Feed
-      </button>
-      {error && (
-        <div>An error occurred preparing the transaction: {error.message}</div>
-      )}
-    </>
-  );
-}
+import { Balance } from "../Web3/Balance";
+import { Input } from "../Inputs/Input";
 
 const TokenOptions = (props: { token: string; contractAddress: string }) => (
   <option value={props.contractAddress}>{props.token}</option>
@@ -120,58 +95,6 @@ const Wallet = () => {
           )}
         </form>
       )}
-    </>
-  );
-};
-
-const Balance = (props: { address: string; token: string }) => {
-  const { data, isError, isLoading } = useBalance({
-    addressOrName: props.address,
-    token: props.token,
-  });
-  return (
-    <>
-      {isLoading && <span>Loading balance...</span>}
-      {isError && (
-        <span>
-          An error occurred loading your balance. Please double check your
-          contract address.
-        </span>
-      )}
-      {data && (
-        <>
-          <span>
-            Balance: {data.formatted} {data.symbol}
-          </span>
-          <Input
-            label="Enter Amount"
-            placeholder="Your Amount"
-            rightIcon={data.symbol}
-          />
-        </>
-      )}
-    </>
-  );
-};
-
-const Input = (props: {
-  label: string;
-  placeholder: string;
-  rightIcon?: JSX.Element | string;
-}) => {
-  return (
-    <>
-      <label className="label">
-        <span className="label-text">{props.label}</span>
-      </label>
-      <label className="input-group">
-        <input
-          type="text"
-          placeholder={props.placeholder}
-          className="input input-bordered"
-        />
-        <span>{props.rightIcon}</span>
-      </label>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { Web3Wrapper } from "../Web3Wrapper";
+import { Web3Wrapper } from "../Web3/Web3Wrapper";
 import { useAccount, useNetwork } from "wagmi";
 
 const Wallet = () => {
