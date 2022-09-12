@@ -34,9 +34,7 @@ function Transfer(props: { token: string; to: string; amount: string }) {
 }
 
 const TokenOptions = (props: { token: string; contractAddress: string }) => (
-  <option value={props.token + ":" + props.contractAddress}>
-    {props.token}
-  </option>
+  <option value={props.contractAddress}>{props.token}</option>
 );
 
 const Wallet = () => {
@@ -50,6 +48,15 @@ const Wallet = () => {
   const handleChange = (e: { target: { value: string } }) => {
     setToken(e.target.value);
   };
+  const handleAddToken = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    const form = (e.target as HTMLButtonElement).form!;
+    console.log(form[0] as HTMLOptionElement);
+    // = (form[1] as HTMLInputElement).value;
+    setToken((form[1] as HTMLInputElement).value);
+  };
   return (
     <>
       {isConnecting && <div>Connecting...</div>}
@@ -62,12 +69,15 @@ const Wallet = () => {
           <div className="input-group">
             <span>
               <div className="w-10 avatar">
-                {token && token != "add" ? (
+                {token &&
+                token != "add" &&
+                tokenOptions.filter((e) => e.contractAddress == token).length >
+                  0 ? (
                   <div className="rounded-full">
                     <img
                       src={
                         tokenOptions.filter(
-                          (e) => e.token == token.split(":")[0]
+                          (e) => e.contractAddress == token
                         )[0].tokenImg
                       }
                     />
@@ -88,18 +98,25 @@ const Wallet = () => {
               {tokenOptions.map((tokenOption, Key) => (
                 <TokenOptions key={Key} {...tokenOption} />
               ))}
-              <option value="add">Add Token</option>
+              <option value="add">Custom Token</option>
             </select>
           </div>
           {token == "add" && (
-            <Input label="Enter Contract Address" placeholder="0x..." />
+            <Input
+              label="Enter Contract Address"
+              placeholder="0x..."
+              rightIcon={<button onClick={handleAddToken}>Add</button>}
+            />
           )}
           {token && token != "add" && (
-            <Input
-              label="Enter Amount"
-              placeholder="10"
-              rightIcon={token.split(":")[0]}
-            />
+            <>
+              {token.substring(0, 4)}...{token.substring(token.length - 4)}
+              <label className="label">
+                <span className="label-text">
+                  <Balance address={address} token={token} />
+                </span>
+              </label>
+            </>
           )}
         </form>
       )}
@@ -114,9 +131,25 @@ const Balance = (props: { address: string; token: string }) => {
   });
   return (
     <>
-      {isLoading && <div>Loading balance...</div>}
-      {isError && <div>An error occurred loading your balance.</div>}
-      {console.log(data)}
+      {isLoading && <span>Loading balance...</span>}
+      {isError && (
+        <span>
+          An error occurred loading your balance. Please double check your
+          contract address.
+        </span>
+      )}
+      {data && (
+        <>
+          <span>
+            Balance: {data.formatted} {data.symbol}
+          </span>
+          <Input
+            label="Enter Amount"
+            placeholder="Your Amount"
+            rightIcon={data.symbol}
+          />
+        </>
+      )}
     </>
   );
 };
