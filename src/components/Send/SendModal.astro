@@ -1,14 +1,10 @@
 ---
 import Modal from "../Modal.astro";
 import { Connect } from "../Connect";
-import { TransferToken } from "./TransferToken";
+import { SendTabs } from "./SendTabs";
 ---
 
 <Modal title="Send" id="send">
   <Connect client:only="react" slot="before-title" />
-  <div class="tabs w-full">
-    <a class="tab tab-bordered tab-active w-1/2">Token</a>
-    <a class="tab tab-bordered w-1/2 disabled">NFT (Coming soon)</a>
-  </div>
-  <TransferToken client:only="react" />
+  <SendTabs client:only="react" />
 </Modal>
