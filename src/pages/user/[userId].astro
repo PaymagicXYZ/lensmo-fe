@@ -1,9 +1,9 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import SendModal from "../../components/Send/SendModal.astro";
-import ClaimModal from "../../components/Claim/ClaimModal.astro";
 import { Icon } from "astro-icon";
 import { supportedNetworks } from "../../../utils/constants";
+import Feed from "../../components/Feed/Feed";
 const [network, user] = Astro.url.pathname.split("/")[2].split(":");
 const networkInfo = supportedNetworks.filter((e) => e.name === network)[0];
 const userInfo = networkInfo && (await networkInfo.resolveUser(user));
@@ -39,8 +39,8 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
                 on
                 <span class="capitalize">{network}</span>
               </h2>
-              <p>{userInfo.description}</p>
-              <h4 class="mx-auto text-slate-500">
+              <h4 class="mx-auto">{userInfo.description}</h4>
+              <h4 class="mx-auto text-slate-500 mt-2">
                 <a href={networkInfo.url + user} target="_blank">
                   View Wallet
                 </a>
@@ -57,8 +57,10 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
               </label>
             </div>
             <div class="h-48 mx-auto">Tokens & NFTs</div>
+
+            <div class="h-2 mx-auto">Feed</div>
+            <Feed client:only="react" />
             <SendModal />
-            <ClaimModal />
           </div>
         ) : (
           <h2 class="card-title">

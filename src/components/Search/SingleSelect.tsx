@@ -16,6 +16,15 @@ export default function SingleSelect() {
 
   return (
     <Fragment>
+      {/* Workaround because I couldn't get the value in the <Select> below to work. */}
+      {/* Mike, feel free to fix and remove if you can.  */}
+      <input
+        type="text"
+        id="userId2"
+        value={selectedOption ? selectedOption.value : ""}
+        placeholder="Search…"
+        class="hidden input input-bordered w-full"
+      />
       <Select
         className="basic-single input w-full"
         isDisabled={false}
@@ -28,6 +37,7 @@ export default function SingleSelect() {
         autoFocus={true}
         placeholder="Search..."
         value={selectedOption}
+        aria-label={selectedOption.value}
         onChange={(option: any) => handleChange(option)}
       />
     </Fragment>
