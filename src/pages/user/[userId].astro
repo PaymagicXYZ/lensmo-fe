@@ -39,7 +39,9 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
                 on
                 <span class="capitalize">{network}</span>
               </h2>
-              <p>{userInfo.description}</p>
+              <p class="mx-auto" id="destination">
+                {userInfo.description}
+              </p>
               <h4 class="mx-auto text-slate-500">
                 <a href={networkInfo.url + user} target="_blank">
                   View Wallet
@@ -51,13 +53,13 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
                 <Icon name="carbon:share-knowledge" class="w-6" />
                 Give tokens
               </label>
-              <label class="btn btn-primary" for="claim">
+              <label class="btn btn-primary btn-disabled" for="claim">
                 <Icon name="carbon:piggy-bank" class="w-6" />
                 Claim
               </label>
             </div>
             <SendModal />
-            <ClaimModal />
+            <ClaimModal provider={network} />
           </div>
         ) : (
           <h2 class="card-title">

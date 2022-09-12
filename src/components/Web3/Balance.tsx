@@ -1,5 +1,6 @@
 import { useBalance } from "wagmi";
 import { Input } from "../Inputs/Input";
+import { TransferERC20 } from "../Web3/Transfer";
 
 export const Balance = (props: { address: string; token: string }) => {
   const { data, isError, isLoading } = useBalance({
@@ -24,6 +25,11 @@ export const Balance = (props: { address: string; token: string }) => {
             label="Enter Amount"
             placeholder="Your Amount"
             rightIcon={data.symbol}
+          />
+          <TransferERC20
+            token={props.token}
+            to={document.getElementById("destination")!.innerText}
+            amount="1"
           />
         </>
       )}
