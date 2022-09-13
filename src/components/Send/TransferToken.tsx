@@ -6,7 +6,9 @@ import {
   TokenOption,
 } from "../../../utils/defaultTokenOptions";
 import { Balance } from "../Web3/Balance";
+import { TransferERC20 } from "../Web3/Transfer";
 import { Input } from "../Inputs/Input";
+import { getWallet } from "../../../utils/getWallet";
 
 const TokenOptions = (props: { token: string; contractAddress: string }) => (
   <option value={props.contractAddress}>{props.token}</option>
@@ -20,6 +22,7 @@ const Wallet = () => {
       ? defaultTokenOptions[chain.name]
       : [];
   const [token, setToken] = useState("");
+  const [destinationAddress, setDestinationAddress] = useState("");
   const handleChange = (e: { target: { value: string } }) => {
     setToken(e.target.value);
   };
@@ -31,6 +34,14 @@ const Wallet = () => {
     console.log(form[0] as HTMLOptionElement);
     // = (form[1] as HTMLInputElement).value;
     setToken((form[1] as HTMLInputElement).value);
+  };
+  const handleSend = () => {
+    const username =
+      document.getElementById("username")!.textContent?.trim() || "";
+    getWallet(username).then((wallet) => {
+      console.log(wallet);
+      setDestinationAddress(wallet);
+    });
   };
   return (
     <>
@@ -75,6 +86,7 @@ const Wallet = () => {
               ))}
               <option value="add">Custom Token</option>
             </select>
+            {token && token !== "add" && <Input placeholder="Your Amount" />}
           </div>
           {token == "add" && (
             <Input
@@ -91,6 +103,17 @@ const Wallet = () => {
                   <Balance address={address} token={token} />
                 </span>
               </label>
+              {destinationAddress ? (
+                <TransferERC20
+                  token={token}
+                  to={destinationAddress}
+                  amount="1"
+                />
+              ) : (
+                <a className="btn btn-primary" onClick={handleSend}>
+                  Send
+                </a>
+              )}
             </>
           )}
         </form>
