@@ -23,7 +23,7 @@ export default function SingleSelect() {
         id="userId2"
         value={selectedOption ? selectedOption.value : ""}
         placeholder="Search…"
-        class="hidden input input-bordered w-full"
+        className="hidden input input-bordered w-full"
       />
       <Select
         className="basic-single input w-full"

@@ -4,11 +4,12 @@ import { Connect } from "../components/Connect";
 import Search from "../components/Search/Search.astro";
 import SingleSelect from "../components/Search/SingleSelect";
 import { Icon } from "astro-icon";
+import Feed from "../components/Feed/Feed";
 ---
 
 <Layout title="Welcome to Lensmo.">
   <div class="card bg-base-100 shadow-xl h-full mx-auto w-full">
-    <div class="card-body flex flex-col content-center">
+    <div class="card-body flex flex-col content-center overflow-y-scroll">
       <div class="flex flex-row justify-end">
         <Connect client:only="react" />
       </div>
@@ -34,6 +35,7 @@ import { Icon } from "astro-icon";
           (coming soon)</button
         >
       </div>
+      <div class="flex mt-8"><Feed client:only="react" /></div>
     </div>
   </div>
 </Layout>

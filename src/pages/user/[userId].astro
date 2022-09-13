@@ -11,9 +11,9 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
 
 <Layout title="Lensmo-User">
   <div
-    class="card bg-base-100 shadow-xl h-full p-6 mx-auto w-full flex flex-col content-center justify-start content-start"
+    class="card bg-base-100 shadow-xl h-full mx-auto w-full flex flex-col content-center justify-start content-start"
   >
-    <div class="flex">
+    <div class="flex pt-6 pl-6">
       <a href="/">
         <Icon name="eva:arrow-back-fill" class="w-8" />
       </a>
@@ -21,7 +21,7 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
     {
       networkInfo ? (
         userInfo ? (
-          <div class="card-body flex flex-col">
+          <div class="card-body flex flex-col overflow-y-scroll">
             <div class="avatar mx-auto">
               <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                 <a href={networkInfo.url + user} target="_blank">
@@ -57,8 +57,6 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
               </label>
             </div>
             <div class="h-48 mx-auto">Tokens & NFTs</div>
-
-            <div class="h-2 mx-auto">Feed</div>
             <Feed client:only="react" />
             <SendModal />
           </div>
