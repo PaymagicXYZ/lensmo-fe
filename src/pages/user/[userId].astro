@@ -13,10 +13,16 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
   <div
     class="card bg-base-100 shadow-xl p-6 mx-auto w-full flex flex-col content-center"
   >
-    <div class="flex">
-      <a href="/">
+    <div class="flex flex-row">
+      <a href="/" class="basis-1/2">
         <Icon name="eva:arrow-back-fill" class="w-8" />
       </a>
+      <p
+        class="font-sans antialiased text-gray-600 basis-1/2 text-right"
+        id="username"
+      >
+        {String(Astro.url.pathname.split("/")[2])}
+      </p>
     </div>
     {
       networkInfo ? (
