@@ -24,9 +24,13 @@ export const defaultTokenOptions: { [key: string]: TokenOption[] } = {
     },
     {
       token: "WETH",
-      tokenImg:
-        "https://static.debank.com/image/project/logo_url/weth/5611c10271b5e9ab32b7d379cdf68a0e.png",
+      tokenImg: "https://polygonscan.com/token/images/WETH_32.png",
       contractAddress: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+    },
+    {
+      token: "BNB",
+      tokenImg: "https://polygonscan.com/token/images/bnb_28_2.png",
+      contractAddress: "0x3BA4c387f786bFEE076A58914F5Bd38d668B42c3",
     },
   ],
 };

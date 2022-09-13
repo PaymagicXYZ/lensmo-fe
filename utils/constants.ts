@@ -191,3 +191,6 @@ const lens = {
 };
 
 export const supportedNetworks = [twitter, github, discord, ens, lens];
+export const availableProviders = supportedNetworks.map((network) => {
+  network.name;
+});
