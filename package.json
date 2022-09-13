@@ -25,7 +25,7 @@
     "@astrojs/react": "^1.1.1",
     "@astrojs/tailwind": "^1.0.0",
     "@astrojs/vercel": "^1.0.2",
-    "@types/react": "^18.0.18",
+    "@types/react": "^18.0.20",
     "daisyui": "^2.25.0",
     "prettier": "^2.7.1",
     "prettier-plugin-astro": "^0.5.4",
