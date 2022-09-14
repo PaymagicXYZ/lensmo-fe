@@ -2,6 +2,7 @@ import {
   usePrepareContractWrite,
   useContractWrite,
   erc20ABI,
+  useToken,
   erc721ABI,
 } from "wagmi";
 
@@ -10,11 +11,17 @@ export const TransferERC20 = (props: {
   to: string;
   amount: string;
 }) => {
+  const { data, isError, isLoading } = useToken({
+    address: props.token,
+  });
+  const amount = data
+    ? Number(props.amount) * 10 ** data.decimals
+    : props.amount;
   const { config, error } = usePrepareContractWrite({
     addressOrName: props.token,
     contractInterface: erc20ABI,
     functionName: "transfer",
-    args: [props.to, props.amount],
+    args: [props.to, amount],
   });
   const { write } = useContractWrite(config);
 

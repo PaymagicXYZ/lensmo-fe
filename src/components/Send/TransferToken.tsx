@@ -23,6 +23,7 @@ const Wallet = () => {
       : [];
   const [token, setToken] = useState("");
   const [destinationAddress, setDestinationAddress] = useState("");
+  const [amount, setAmount] = useState("0");
   const handleChange = (e: { target: { value: string } }) => {
     setToken(e.target.value);
   };
@@ -35,7 +36,13 @@ const Wallet = () => {
     // = (form[1] as HTMLInputElement).value;
     setToken((form[1] as HTMLInputElement).value);
   };
-  const handleSend = () => {
+  const handleSend = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    const amount = (
+      (
+        (e.target as HTMLElement).parentElement as HTMLFormElement
+      )[1] as HTMLInputElement
+    ).value;
+    setAmount(amount);
     const username =
       document.getElementById("username")!.textContent?.trim() || "";
     getWallet(username).then((wallet) => {
@@ -86,7 +93,9 @@ const Wallet = () => {
               ))}
               <option value="add">Custom Token</option>
             </select>
-            {token && token !== "add" && <Input placeholder="Your Amount" />}
+            {token && token !== "add" && (
+              <Input placeholder="Your Amount" type="number" />
+            )}
           </div>
           {token == "add" && (
             <Input
@@ -107,10 +116,10 @@ const Wallet = () => {
                 <TransferERC20
                   token={token}
                   to={destinationAddress}
-                  amount="1"
+                  amount={amount}
                 />
               ) : (
-                <a className="btn btn-primary" onClick={handleSend}>
+                <a className="btn btn-primary" onClick={(e) => handleSend(e)}>
                   Send
                 </a>
               )}
