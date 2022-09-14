@@ -7,6 +7,7 @@ import { supportedNetworks } from "../../../utils/constants";
 const [network, user] = Astro.url.pathname.split("/")[2].split(":");
 const networkInfo = supportedNetworks.filter((e) => e.name === network)[0];
 const userInfo = networkInfo && (await networkInfo.resolveUser(user));
+import { LoggedInAs } from "../../components/Accounts/User";
 ---
 
 <Layout title="Lensmo-User">
@@ -21,6 +22,7 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
         class="font-sans antialiased text-gray-600 basis-1/2 text-right"
         id="username"
       >
+        <LoggedInAs client:load />
         {String(Astro.url.pathname.split("/")[2])}
       </p>
     </div>

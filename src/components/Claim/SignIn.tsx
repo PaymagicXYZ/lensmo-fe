@@ -2,9 +2,14 @@ import type { Provider } from "@supabase/supabase-js";
 import supabase from "../../../utils/supabaseClient";
 
 const signInWith = (provider: Provider) => async () => {
-  const { user, session, error } = await supabase.auth.signIn({
-    provider: provider,
-  });
+  const { user, session, error } = await supabase.auth.signIn(
+    {
+      provider: provider,
+    },
+    {
+      redirectTo: "http://localhost:3000/user",
+    }
+  );
 };
 
 export const SignInWithProvider = (props: { provider: Provider }) => {
