@@ -45,10 +45,16 @@ const Wallet = () => {
     setAmount(amount);
     const username =
       document.getElementById("username")!.textContent?.trim() || "";
-    getWallet(username).then((wallet) => {
-      console.log(wallet);
-      setDestinationAddress(wallet);
-    });
+    if (new RegExp("^[lens|ens]").test(username)) {
+      const wallet = document
+        .getElementById("destination")!
+        .textContent?.trim();
+      setDestinationAddress(wallet!);
+    } else {
+      getWallet(username).then((wallet) => {
+        setDestinationAddress(wallet);
+      });
+    }
   };
   return (
     <>
