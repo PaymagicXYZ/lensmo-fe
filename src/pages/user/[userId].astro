@@ -14,9 +14,15 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
     class="card bg-base-100 shadow-xl h-full mx-auto w-full flex flex-col content-center justify-start content-start"
   >
     <div class="flex pt-6 pl-6">
-      <a href="/">
+      <a href="/" class="basis-1/2">
         <Icon name="eva:arrow-back-fill" class="w-8" />
       </a>
+      <p
+        class="font-sans antialiased text-gray-600 basis-1/2 text-right"
+        id="username"
+      >
+        {String(Astro.url.pathname.split("/")[2])}
+      </p>
     </div>
     {
       networkInfo ? (
@@ -51,7 +57,7 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
                 <Icon name="carbon:share-knowledge" class="w-6" />
                 Give tokens
               </label>
-              <label class="btn btn-primary" for="claim">
+              <label class="btn btn-primary btn-disabled" for="claim">
                 <Icon name="carbon:piggy-bank" class="w-6" />
                 Claim
               </label>
@@ -59,6 +65,7 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
             <div class="h-48 mx-auto">Tokens & NFTs</div>
             <Feed client:only="react" />
             <SendModal />
+            <ClaimModal provider={network} />
           </div>
         ) : (
           <h2 class="card-title">
