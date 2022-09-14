@@ -4,6 +4,11 @@ export interface UserIdOption {
 }
 
 export const userIdOptions: readonly UserIdOption[] = [
+  // { value: "twitter:corbpage", label: "twitter:corbpage" },
+  // { value: "github:corbinpage", label: "github:corbinpage" },
+  // { value: "lens:corbin.lens", label: "lens:corbin.lens" },
+  // { value: "ens:corbin.eth", label: "ens:corbin.eth" },
+  // { value: "email:corbin@gmail.com", label: "email:corbin@gmail.com" },
   { value: "twitter:elonmusk", label: "twitter:elonmusk" },
   { value: "twitter:jack", label: "twitter:jack" },
   { value: "twitter:jeffbezos", label: "twitter:jeffbezos" },
