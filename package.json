@@ -19,6 +19,7 @@
     "graphql": "^16.6.0",
     "nanostores": "^0.6.0",
     "postcss": "^8.4.16",
+    "react-select": "^5.4.0",
     "wagmi": "^0.6.4"
   },
   "devDependencies": {

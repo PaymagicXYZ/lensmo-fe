@@ -1,9 +1,9 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import SendModal from "../../components/Send/SendModal.astro";
-import ClaimModal from "../../components/Claim/ClaimModal.astro";
 import { Icon } from "astro-icon";
 import { supportedNetworks } from "../../../utils/constants";
+import Feed from "../../components/Feed/Feed";
 const [network, user] = Astro.url.pathname.split("/")[2].split(":");
 const networkInfo = supportedNetworks.filter((e) => e.name === network)[0];
 const userInfo = networkInfo && (await networkInfo.resolveUser(user));
@@ -11,9 +11,9 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
 
 <Layout title="Lensmo-User">
   <div
-    class="card bg-base-100 shadow-xl p-6 mx-auto w-full flex flex-col content-center"
+    class="card bg-base-100 shadow-xl h-full mx-auto w-full flex flex-col content-center justify-start content-start"
   >
-    <div class="flex flex-row">
+    <div class="flex pt-6 pl-6">
       <a href="/" class="basis-1/2">
         <Icon name="eva:arrow-back-fill" class="w-8" />
       </a>
@@ -27,7 +27,7 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
     {
       networkInfo ? (
         userInfo ? (
-          <div class="card-body flex flex-col justify-center">
+          <div class="card-body flex flex-col overflow-y-scroll">
             <div class="avatar mx-auto">
               <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                 <a href={networkInfo.url + user} target="_blank">
@@ -45,10 +45,8 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
                 on
                 <span class="capitalize">{network}</span>
               </h2>
-              <p class="mx-auto" id="destination">
-                {userInfo.description}
-              </p>
-              <h4 class="mx-auto text-slate-500">
+              <h4 class="mx-auto">{userInfo.description}</h4>
+              <h4 class="mx-auto text-slate-500 mt-2">
                 <a href={networkInfo.url + user} target="_blank">
                   View Wallet
                 </a>
@@ -64,6 +62,8 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
                 Claim
               </label>
             </div>
+            <div class="h-48 mx-auto">Tokens & NFTs</div>
+            <Feed client:only="react" />
             <SendModal />
             <ClaimModal provider={network} />
           </div>
