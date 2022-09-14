@@ -1,14 +1,14 @@
 import supabase from "./supabaseClient";
 
 export const getWalletAddressFromId = async (walletId: number | number[]) => {
-  const { data: escrow_wallets, error } = await supabase
-    .from("escrow_wallets")
+  const { data: receive_wallets, error } = await supabase
+    .from("receive_wallets")
     .select("wallet_address")
     .eq("id", [walletId]);
   if (error) {
     return error?.message;
   }
-  return escrow_wallets[0].wallet_address;
+  return receive_wallets[0].wallet_address;
 };
 
 export const addNewWallet = async (username: string) => {
