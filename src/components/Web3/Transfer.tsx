@@ -5,25 +5,8 @@ import {
   useToken,
   erc721ABI,
 } from "wagmi";
-
-export const TransferERC20 = (props: {
-  token: string;
-  to: string;
-  amount: string;
-}) => {
-  const { data, isError, isLoading } = useToken({
-    address: props.token,
-  });
-  const amount = data
-    ? Number(props.amount) * 10 ** data.decimals
-    : props.amount;
-  const { config, error } = usePrepareContractWrite({
-    addressOrName: props.token,
-    contractInterface: erc20ABI,
-    functionName: "transfer",
-    args: [props.to, amount],
-  });
-  const { write } = useContractWrite(config);
+const TransferWrite = (props: { config: any; error: any }) => {
+  const { write } = useContractWrite(props.config);
 
   return (
     <>
@@ -34,7 +17,7 @@ export const TransferERC20 = (props: {
       >
         Confirm
       </button>
-      {error && (
+      {props.error && (
         <div className="collapse">
           <input type="checkbox" />
           <div className="collapse-title alert alert-warning shadow-lg">
@@ -56,10 +39,46 @@ export const TransferERC20 = (props: {
             </div>
           </div>
           <div className="collapse-content">
-            <p>{error.message}</p>
+            <p>{props.error.message}</p>
           </div>
         </div>
       )}
     </>
   );
+};
+
+export const TransferERC20 = (props: {
+  token: string;
+  to: string;
+  amount: string;
+}) => {
+  const { data, isError, isLoading } = useToken({
+    address: props.token,
+  });
+  const amount = data
+    ? Number(props.amount) * 10 ** data.decimals
+    : props.amount;
+  const { config, error } = usePrepareContractWrite({
+    addressOrName: props.token,
+    contractInterface: erc20ABI,
+    functionName: "transfer",
+    args: [props.to, amount],
+  });
+
+  return <TransferWrite config={config} error={error} />;
+};
+
+export const TransferERC721 = (props: {
+  from: string;
+  contract: string;
+  to: string;
+  id: string;
+}) => {
+  const { config, error } = usePrepareContractWrite({
+    addressOrName: props.contract,
+    contractInterface: erc721ABI,
+    functionName: "transferFrom",
+    args: [props.from, props.to, props.id],
+  });
+  return <TransferWrite config={config} error={error} />;
 };

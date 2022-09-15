@@ -5,6 +5,7 @@ export const NFTCollection = (props: { address: string }) => {
     addressOrName: props.address,
     contractInterface: erc721ABI,
     functionName: "balanceOf",
+    args: [props.address],
   });
   return (
     <>

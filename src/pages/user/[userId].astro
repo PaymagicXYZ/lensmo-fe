@@ -22,7 +22,6 @@ import { LoggedInAs } from "../../components/Accounts/User";
         class="font-sans antialiased text-gray-600 basis-1/2 text-right"
         id="username"
       >
-        <LoggedInAs client:load />
         {String(Astro.url.pathname.split("/")[2])}
       </p>
     </div>
