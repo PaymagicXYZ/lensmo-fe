@@ -9,12 +9,25 @@ export const LoggedInAs = () => {
   }
 };
 
+const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+  const target = event.target as typeof event.target & {
+    newOwnerAddress: { value: string };
+  };
+  const newOwnerAddress = target.newOwnerAddress.value;
+  handleClaim(newOwnerAddress);
+};
+
 const handleClaim = (newOwnerAddress: string) => {
-  fetch("https://backend.lensmo.xyz/claim", {
+  console.log("Claiming NFT for address: ", newOwnerAddress);
+  const session = supabase.auth.session();
+  const token = session && session.access_token;
+  fetch("https://rvhpnxjvpgatvgaubbyt.functions.supabase.co/claim", {
     method: "POST",
     headers: {
       "Content-Type": "application/javascript",
-      Authorization: `Bearer ${import.meta.env.PUBLIC_SUPABASE_KEY}`,
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "*",
     },
     body: JSON.stringify({
       newOwnerAddress: newOwnerAddress,
@@ -28,31 +41,26 @@ const handleClaim = (newOwnerAddress: string) => {
 
 export const VerifiedUser = (props: { provider: string; userInfo: any }) => {
   console.log(user);
-  console.log(supabase.auth.session());
   if (user) {
     return (
       <div>
         <h5>Logged in as {user.email}</h5>
-        {/* <a
-          className="btn btn-primary"
-          onClick={() => {
-            supabase.auth.signOut();
-          }}
-        >
-          Sign out
-        </a> */}
         {user.identities &&
         user.identities.filter(
           (identity) =>
             identity.provider === props.provider &&
             identity.identity_data.name === props.userInfo.name
         ).length > 0 ? (
-          <>
+          <form onSubmit={handleSubmit}>
             Eligible to claim
-            <a className="btn btn-primary" onClick={(e) => handleClaim}>
-              Claim
-            </a>
-          </>
+            <input
+              type="text"
+              name="newOwnerAddress"
+              placeholder="Enter your wallet address"
+              className="input input-bordered w-full max-w-xs"
+            />
+            <input className="btn btn-primary" value="Claim" type="submit" />
+          </form>
         ) : (
           <p>You are not eligible to claim this account</p>
         )}
