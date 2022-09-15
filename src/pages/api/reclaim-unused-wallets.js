@@ -17,23 +17,23 @@ const approvals = await getApproval();
 
 export default function handler(req, res) {
   res.setHeader("Cache-Control", "s-maxage=60", "stale-while-revalidate=300");
-  res.status(200)
+  res.status(200);
   // .json(
   //   {}
-    // approvals.data.items
-    //   .filter((item) => item.decoded.params[2].value != 0)
-    //   .reverse()
-    //   .map((e) => {
-    //     return {
-    //       balance: ethers.utils.formatUnits(
-    //         e.decoded.params[2].value,
-    //         e.sender_contract_decimals
-    //       ),
-    //       symbol: e.sender_contract_ticker_symbol,
-    //       maker: e.decoded.params[0].value,
-    //       time: e.block_signed_at,
-    //       tx: e.tx_hash,
-    //     };
-    //   })
-  );?
+  // approvals.data.items
+  //   .filter((item) => item.decoded.params[2].value != 0)
+  //   .reverse()
+  //   .map((e) => {
+  //     return {
+  //       balance: ethers.utils.formatUnits(
+  //         e.decoded.params[2].value,
+  //         e.sender_contract_decimals
+  //       ),
+  //       symbol: e.sender_contract_ticker_symbol,
+  //       maker: e.decoded.params[0].value,
+  //       time: e.block_signed_at,
+  //       tx: e.tx_hash,
+  //     };
+  //   })
+  // );
 }
