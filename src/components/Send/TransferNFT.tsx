@@ -41,7 +41,7 @@ const Wallet = () => {
     }
   };
   useEffect(() => {
-    const chainName = chain && chainForCenterChainName[chain.network as Chain];
+    const chainName = chainForCenterChainName[chain!.network as Chain];
     const endpoint = `https://api.center.dev/v1/${chainName}/account/${address}/assets-owned`;
     fetch(endpoint, {
       method: "GET",
