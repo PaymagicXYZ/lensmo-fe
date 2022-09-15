@@ -30,10 +30,11 @@ import Feed from "../components/Feed/Feed";
         >
           <Icon class="w-6" name="carbon:send-alt-filled" />Send</button
         >
-        <button class="btn btn-primary" disabled
+        <button
+          class="btn btn-primary"
+          onclick="window.location.href = `/airdrop`"
           ><Icon class="w-6" name="icon-park-outline:hot-air-balloon" />Airdrop
-          (coming soon)</button
-        >
+        </button>
       </div>
       <div class="flex mt-8"><Feed client:only="react" /></div>
     </div>
