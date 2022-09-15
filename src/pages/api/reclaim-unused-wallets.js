@@ -17,8 +17,9 @@ const approvals = await getApproval();
 
 export default function handler(req, res) {
   res.setHeader("Cache-Control", "s-maxage=60", "stale-while-revalidate=300");
-  res.status(200).json(
-    {}
+  res.status(200)
+  // .json(
+  //   {}
     // approvals.data.items
     //   .filter((item) => item.decoded.params[2].value != 0)
     //   .reverse()
@@ -34,5 +35,5 @@ export default function handler(req, res) {
     //       tx: e.tx_hash,
     //     };
     //   })
-  );
+  );?
 }
