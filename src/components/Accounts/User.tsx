@@ -8,6 +8,61 @@ export const LoggedInAs = () => {
     return <h5>Logged in as {user.email}</h5>;
   }
 };
+
+const handleClaim = (newOwnerAddress: string) => {
+  fetch("https://backend.lensmo.xyz/claim", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/javascript",
+      Authorization: `Bearer ${import.meta.env.PUBLIC_SUPABASE_KEY}`,
+    },
+    body: JSON.stringify({
+      newOwnerAddress: newOwnerAddress,
+    }),
+    redirect: "follow",
+  })
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.log("error", error));
+};
+
+export const VerifiedUser = (props: { provider: string; userInfo: any }) => {
+  console.log(user);
+  console.log(supabase.auth.session());
+  if (user) {
+    return (
+      <div>
+        <h5>Logged in as {user.email}</h5>
+        {/* <a
+          className="btn btn-primary"
+          onClick={() => {
+            supabase.auth.signOut();
+          }}
+        >
+          Sign out
+        </a> */}
+        {user.identities &&
+        user.identities.filter(
+          (identity) =>
+            identity.provider === props.provider &&
+            identity.identity_data.name === props.userInfo.name
+        ).length > 0 ? (
+          <>
+            Eligible to claim
+            <a className="btn btn-primary" onClick={(e) => handleClaim}>
+              Claim
+            </a>
+          </>
+        ) : (
+          <p>You are not eligible to claim this account</p>
+        )}
+      </div>
+    );
+  } else {
+    return <SignInWithProvider provider={props.provider as Provider} />;
+  }
+};
+
 export const UserInfo = () => {
   if (user) {
     return (

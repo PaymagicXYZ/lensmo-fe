@@ -137,11 +137,6 @@ const lens = {
       uri: "https://api.lens.dev",
       cache: new InMemoryCache(),
     });
-    const q = `
-  query {
-    ping
-  }
-`;
     return async (userName: string) => {
       userName = new RegExp(".lens$").test(userName)
         ? userName
