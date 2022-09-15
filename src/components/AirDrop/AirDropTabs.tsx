@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { AirDropToken } from "./AirDropToken";
 import { AirDropNFT } from "./AirDropNFT";
-export const Airdrop = () => {
+
+export const AirDropTabs = () => {
   const [tab, setTab] = useState("Token");
   const handleTabChange = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
