@@ -13,14 +13,20 @@ type Chain = keyof typeof chainForCenterChainName;
 
 const Wallet = () => {
   const { address, isConnecting, isDisconnected } = useAccount();
-  const [contract, setContract] = useState("");
   const [destinationAddress, setDestinationAddress] = useState("");
-  const [id, setId] = useState("");
+  const [NFTList, setNFTList] = useState([]);
+  const [selectedNFT, setSelectedNFT] = useState({
+    contract: "",
+    tokenId: "",
+  });
   const { chain } = useNetwork();
   const handleSend = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     const form = (e.target as HTMLElement).parentElement as HTMLFormElement;
     const id = (form[2] as HTMLInputElement).value;
-    setId(id);
+    setSelectedNFT({
+      contract: selectedNFT.contract,
+      tokenId: id,
+    });
     const username =
       document.getElementById("username")!.textContent?.trim() || "";
     if (new RegExp("^[lens|ens]").test(username)) {
@@ -35,7 +41,6 @@ const Wallet = () => {
     }
   };
   useEffect(() => {
-    console.log(import.meta.env.PUBLIC_CENTER_API_KEY);
     const chainName = chain && chainForCenterChainName[chain.network as Chain];
     const endpoint = `https://api.center.dev/v1/${chainName}/account/${address}/assets-owned`;
     fetch(endpoint, {
@@ -45,44 +50,61 @@ const Wallet = () => {
       },
     }).then((res) => {
       res.json().then((data) => {
-        console.log(data);
+        setNFTList(data.items);
       });
     });
   }, [address, chain]);
   const handleAdd = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const contract = ((e.target as HTMLFormElement)[0] as HTMLInputElement)
-      .value;
-    new RegExp("^0x[a-fA-F0-9]{40}$").test(contract) && setContract(contract);
+    const form = e.target as HTMLFormElement;
+    const contract = (form[0] as HTMLInputElement).value;
+    new RegExp("^0x[a-fA-F0-9]{40}$").test(contract) &&
+      setSelectedNFT({
+        contract,
+        tokenId: selectedNFT.tokenId,
+      });
   };
+  const handleSelect = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const NFT: { address: string; tokenId: string } =
+      NFTList[Number((e.target as HTMLInputElement).value)];
+    setSelectedNFT({
+      contract: NFT.address,
+      tokenId: NFT.tokenId,
+    });
+  };
+
   return (
     <>
       {isConnecting && <div>Connecting...</div>}
       {isDisconnected && <div>Please connect your wallet to continue.</div>}
       {address && (
-        <form className="form-control" onSubmit={handleAdd}>
+        <form
+          className="form-control"
+          onSubmit={handleAdd}
+          onChange={handleSelect}
+        >
           <label className="label">
             <span className="label-text">NFT Collection</span>
           </label>
+          <NFTCollection NFTList={NFTList} />
           <Input
             label="Enter Contract Address"
-            placeholder="0x..."
+            placeholder={selectedNFT.contract}
             rightIcon={<button type="submit">Add</button>}
           />
-          {contract && (
+          {selectedNFT.contract && (
             <>
-              <p>
-                {contract.substring(0, 4)}...
-                {contract.substring(contract.length - 4)}
-              </p>
-              <NFTCollection address={contract} />
-              <Input label="Enter Your NFT ID" placeholder="NFT ID" />
-              {destinationAddress && id && address ? (
+              <Input
+                label="Enter Your NFT ID"
+                placeholder={selectedNFT.tokenId}
+              />
+              {destinationAddress && selectedNFT.tokenId && address ? (
                 <TransferERC721
                   from={address}
-                  contract={contract}
+                  contract={selectedNFT.contract}
                   to={destinationAddress}
-                  id={id}
+                  id={selectedNFT.tokenId}
                 />
               ) : (
                 <a className="btn btn-primary" onClick={(e) => handleSend(e)}>
