@@ -27,7 +27,7 @@ const Wallet = () => {
       ? defaultTokenOptions[chain.name]
       : []
   );
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState("native");
   const [destinationAddress, setDestinationAddress] = useState("");
   const [amount, setAmount] = useState("0");
   const handleChange = (e: { target: { value: string } }) => {
@@ -74,7 +74,8 @@ const Wallet = () => {
       fetch(url).then((res) => {
         res.json().then((data) => {
           setTokenOptions([
-            { token: "my tokens", tokenImg: "", contractAddress: "" },
+            ...tokenOptions,
+            { token: "My Tokens", tokenImg: "", contractAddress: "" },
             ...data.data.items.map(
               (item: {
                 contract_ticker_symbol: string;
@@ -88,8 +89,6 @@ const Wallet = () => {
                 };
               }
             ),
-            { token: "top tokens", tokenImg: "", contractAddress: "" },
-            ...tokenOptions,
           ]);
         });
       });
@@ -127,7 +126,7 @@ const Wallet = () => {
             </span>
             <select
               className="select select-bordered"
-              defaultValue="0"
+              defaultValue="native"
               onChange={handleChange}
             >
               <option value="0" disabled>
