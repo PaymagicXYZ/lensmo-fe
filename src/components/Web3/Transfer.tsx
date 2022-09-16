@@ -37,7 +37,7 @@ const TransferWrite = (props: {
       {props.error && (
         <div className="collapse">
           <input type="checkbox" />
-          <div className="collapse-title alert alert-warning shadow-lg">
+          <div className="mt-8 collapse-title alert alert-warning shadow-lg">
             <div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

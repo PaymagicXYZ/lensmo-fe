@@ -125,7 +125,7 @@ const Wallet = () => {
               </div>
             </span>
             <select
-              className="select select-bordered"
+              className="select"
               defaultValue="native"
               onChange={handleChange}
             >
@@ -155,11 +155,9 @@ const Wallet = () => {
                     token.length - 4
                   )}`
                 : token} */}
-              <label className="label">
-                <span className="label-text">
-                  <Balance address={address} token={token} />
-                </span>
-              </label>
+              <span className="label-text text-gray-400">
+                <Balance address={address} token={token} />
+              </span>
               {destinationAddress ? (
                 <TransferERC20
                   token={token}

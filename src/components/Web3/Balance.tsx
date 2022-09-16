@@ -12,20 +12,11 @@ export const Balance = (props: { address: string; token: string }) => {
         });
   return (
     <>
-      {isLoading && <span>Loading balance...</span>}
-      {isError && (
-        <span>
-          An error occurred loading your balance. Please double check your
-          contract address.
-        </span>
-      )}
-      {data && (
-        <>
-          <span>
-            Balance: {data.formatted} {data.symbol}
-          </span>
-        </>
-      )}
+      {isLoading && "Loading balance..."}
+      {isError &&
+        "An error occurred loading your balance. Please double check your contract address."}
+      {data &&
+        `Balance: ${Number(data.formatted).toPrecision(3)} ${data.symbol}`}
     </>
   );
 };
