@@ -150,11 +150,11 @@ const Wallet = () => {
           )}
           {token && token != "add" && (
             <>
-              {token.length == 42
+              {/* {token.length == 42
                 ? `${token.substring(0, 4)}...${token.substring(
                     token.length - 4
                   )}`
-                : token}
+                : token} */}
               <label className="label">
                 <span className="label-text">
                   <Balance address={address} token={token} />
