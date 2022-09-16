@@ -40,7 +40,7 @@ const Wallet = () => {
       });
     }
   };
-  const chainName = chainForCenterChainName[chain!.network as Chain];
+  const chainName = chain && chainForCenterChainName[chain.network as Chain];
   const endpoint = `https://api.center.dev/v1/${chainName}/account/${address}/assets-owned?limit=12`;
   useEffect(() => {
     fetch(endpoint, {
