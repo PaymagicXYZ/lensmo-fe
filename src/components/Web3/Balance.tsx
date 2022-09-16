@@ -1,10 +1,15 @@
 import { useBalance } from "wagmi";
 
 export const Balance = (props: { address: string; token: string }) => {
-  const { data, isError, isLoading } = useBalance({
-    addressOrName: props.address,
-    token: props.token,
-  });
+  const { data, isError, isLoading } =
+    props.token == "native"
+      ? useBalance({
+          addressOrName: props.address,
+        })
+      : useBalance({
+          addressOrName: props.address,
+          token: props.token,
+        });
   return (
     <>
       {isLoading && <span>Loading balance...</span>}

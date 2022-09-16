@@ -6,6 +6,11 @@ export type TokenOption = {
 export const defaultTokenOptions: { [key: string]: TokenOption[] } = {
   Polygon: [
     {
+      token: "MATIC",
+      tokenImg: "https://polygon.technology/_nuxt/img/h-polygon.9bc1414.svg",
+      contractAddress: "native",
+    },
+    {
       token: "USDT",
       tokenImg:
         "https://www.coinopsy.com/media/img/quality_logo/tether-usdt.png",
