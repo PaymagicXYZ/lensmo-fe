@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Web3Wrapper } from "../Web3/Web3Wrapper";
 import { useAccount, useNetwork } from "wagmi";
 import {
@@ -11,16 +11,22 @@ import { Input } from "../Inputs/Input";
 import { getWallet } from "../../../utils/getWallet";
 
 const TokenOptions = (props: { token: string; contractAddress: string }) => (
-  <option value={props.contractAddress}>{props.token}</option>
+  <option
+    value={props.contractAddress}
+    disabled={props.contractAddress ? false : true}
+  >
+    {props.token}
+  </option>
 );
 
 const Wallet = () => {
   const { address, isConnecting, isDisconnected } = useAccount();
   const { chain } = useNetwork();
-  const tokenOptions: TokenOption[] =
+  const [tokenOptions, setTokenOptions] = useState(
     chain && Object.keys(defaultTokenOptions).includes(chain.name)
       ? defaultTokenOptions[chain.name]
-      : [];
+      : []
+  );
   const [token, setToken] = useState("");
   const [destinationAddress, setDestinationAddress] = useState("");
   const [amount, setAmount] = useState("0");
@@ -56,6 +62,39 @@ const Wallet = () => {
       });
     }
   };
+  useEffect(() => {
+    if (address && chain) {
+      const chainNameForId = {
+        Polygon: 137,
+      };
+      const chainId = chainNameForId[chain.name as keyof typeof chainNameForId];
+      const url = `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/?key=${
+        import.meta.env.PUBLIC_COVALENT_API_KEY
+      }`;
+      fetch(url).then((res) => {
+        res.json().then((data) => {
+          setTokenOptions([
+            { token: "my tokens", tokenImg: "", contractAddress: "" },
+            ...data.data.items.map(
+              (item: {
+                contract_ticker_symbol: string;
+                logo_url: string;
+                contract_address: string;
+              }) => {
+                return {
+                  token: item.contract_ticker_symbol,
+                  tokenImg: item.logo_url,
+                  contractAddress: item.contract_address,
+                };
+              }
+            ),
+            { token: "top tokens", tokenImg: "", contractAddress: "" },
+            ...tokenOptions,
+          ]);
+        });
+      });
+    }
+  }, [address, chain]);
   return (
     <>
       {isConnecting && <div>Connecting...</div>}
@@ -112,7 +151,11 @@ const Wallet = () => {
           )}
           {token && token != "add" && (
             <>
-              {token.substring(0, 4)}...{token.substring(token.length - 4)}
+              {token.length == 42
+                ? `${token.substring(0, 4)}...${token.substring(
+                    token.length - 4
+                  )}`
+                : token}
               <label className="label">
                 <span className="label-text">
                   <Balance address={address} token={token} />
