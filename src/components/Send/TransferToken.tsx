@@ -32,27 +32,20 @@ const Wallet = () => {
     setAmount(amount);
     const username =
       document.getElementById("username")!.textContent?.trim() || "";
-    if (new RegExp("^[lens|ens]").test(username)) {
-      const wallet = document
-        .getElementById("destination")!
-        .textContent?.trim();
-      setDestinationAddress(wallet!);
-    } else {
-      getWallet(username).then((wallet) => {
-        setDestinationAddress(wallet);
-      });
-    }
+    getWallet(username).then((wallet) => {
+      setDestinationAddress(wallet);
+    });
   };
+  const portfolio = chain && address ? useTokenPortfolio(chain, address) : [];
   useEffect(() => {
-    if (address && chain) {
-      const portfolio = useTokenPortfolio(chain, address);
+    portfolio.length > 0 &&
       setTokenOptions([
         ...tokenOptions,
         { token: "My Tokens", tokenImg: "", contractAddress: "" },
         ...portfolio,
       ]);
-    }
-  }, [address, chain]);
+  }, [portfolio]);
+
   return (
     <>
       {isConnecting && <div>Connecting...</div>}

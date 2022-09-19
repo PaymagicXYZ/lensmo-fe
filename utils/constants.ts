@@ -99,7 +99,7 @@ const discord = {
   },
 };
 
-const ens = {
+export const ens = {
   name: "ens",
   logo: "ens",
   apiKey: import.meta.env.ALCHEMY_ID,
@@ -124,9 +124,9 @@ const ens = {
   },
 };
 
-import pkg from "@apollo/client";
-const { ApolloClient, InMemoryCache, gql } = pkg;
-const lens = {
+import { ApolloClient, gql } from "@apollo/client/core";
+import { InMemoryCache } from "@apollo/client/cache";
+export const lens = {
   name: "lens",
   logo: "lens",
   apiKey: import.meta.env.LENS_TOKEN,
