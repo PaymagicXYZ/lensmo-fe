@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AirDropToken } from "./AirDropToken";
 import { AirDropNFT } from "./AirDropNFT";
+import { Web3Wrapper } from "../Web3/Web3Wrapper";
 
 export const AirDropTabs = () => {
   const [tab, setTab] = useState("Token");
@@ -11,7 +12,7 @@ export const AirDropTabs = () => {
     setTab((e.target as HTMLElement).innerHTML);
   };
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-col">
       <div className="tabs w-full">
         <a
           className={`tab tab-bordered w-1/2 ${
@@ -28,8 +29,10 @@ export const AirDropTabs = () => {
           NFT
         </a>
       </div>
-      {tab === "Token" && <AirDropToken />}
-      {tab === "NFT" && <AirDropNFT />}
+      <Web3Wrapper>
+        {tab === "Token" && <AirDropToken />}
+        {tab === "NFT" && <AirDropNFT />}
+      </Web3Wrapper>
     </div>
   );
 };
