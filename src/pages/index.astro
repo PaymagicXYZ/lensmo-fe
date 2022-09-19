@@ -2,9 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import { Connect } from "../components/Web3/Connect";
 import Search from "../components/Search/Search.astro";
-import SingleSelect from "../components/Search/SingleSelect";
 import { Icon } from "astro-icon";
-import Feed from "../components/Feed/Feed";
 ---
 
 <Layout title="Welcome to Lensmo.">
@@ -22,11 +20,11 @@ import Feed from "../components/Feed/Feed";
           required
         </h3>
       </div>
-      <SingleSelect client:only="react" />
+      <Search />
       <div class="flex mt-4 space-x-4 mx-auto">
         <button
           class="btn btn-primary"
-          onclick="window.location.href = `/user/${getElementById('userId2').value}`"
+          onclick="window.location.href = `/user/${getElementById('userId').value}`"
         >
           <Icon class="w-6" name="carbon:send-alt-filled" />Send</button
         >
@@ -36,7 +34,6 @@ import Feed from "../components/Feed/Feed";
           ><Icon class="w-6" name="icon-park-outline:hot-air-balloon" />Airdrop
         </button>
       </div>
-      <div class="flex mt-8"><Feed client:only="react" /></div>
     </div>
   </div>
 </Layout>

@@ -59,13 +59,17 @@ const Wallet = () => {
   return (
     <>
       {isConnecting && <div>Connecting...</div>}
-      {isDisconnected && <div>Please connect your wallet to continue.</div>}
+      {isDisconnected && (
+        <div class="my-4"> Please connect your wallet to continue.</div>
+      )}
       {address && (
         <form className="form-control">
-          <label className="label">
-            <span className="label-text">Asset</span>
-          </label>
-          <div className="input-group">
+          <div className="my-4">
+            <select className="select max-w-xs" disabled>
+              <option value="0">Polygon</option>
+            </select>
+          </div>
+          <div className="input-group bg-white!">
             <span>
               <div className="w-10 avatar">
                 {token &&
