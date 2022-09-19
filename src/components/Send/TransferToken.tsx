@@ -7,17 +7,9 @@ import {
 } from "../../../utils/defaultTokenOptions";
 import { Balance } from "../Web3/Balance";
 import { TransferERC20 } from "../Web3/Transfer";
-import { Input } from "../Inputs/Input";
 import { getWallet } from "../../../utils/getWallet";
-
-const TokenOptions = (props: { token: string; contractAddress: string }) => (
-  <option
-    value={props.contractAddress}
-    disabled={props.contractAddress ? false : true}
-  >
-    {props.token}
-  </option>
-);
+import { useTokenPortfolio } from "../Web3/hooks/useTokenPortfolio";
+import { SelectToken } from "../Inputs/SelectToken";
 
 const Wallet = () => {
   const { address, isConnecting, isDisconnected } = useAccount();
@@ -27,21 +19,10 @@ const Wallet = () => {
       ? defaultTokenOptions[chain.name]
       : []
   );
-  const [token, setToken] = useState("native");
+
   const [destinationAddress, setDestinationAddress] = useState("");
   const [amount, setAmount] = useState("0");
-  const handleChange = (e: { target: { value: string } }) => {
-    setToken(e.target.value);
-  };
-  const handleAddToken = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    const form = (e.target as HTMLButtonElement).form!;
-    console.log(form[0] as HTMLOptionElement);
-    // = (form[1] as HTMLInputElement).value;
-    setToken((form[1] as HTMLInputElement).value);
-  };
+  const [token, setToken] = useState("native");
   const handleSend = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     const amount = (
       (
@@ -64,34 +45,12 @@ const Wallet = () => {
   };
   useEffect(() => {
     if (address && chain) {
-      const chainNameForId = {
-        Polygon: 137,
-      };
-      const chainId = chainNameForId[chain.name as keyof typeof chainNameForId];
-      const url = `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/?key=${
-        import.meta.env.PUBLIC_COVALENT_API_KEY
-      }`;
-      fetch(url).then((res) => {
-        res.json().then((data) => {
-          setTokenOptions([
-            ...tokenOptions,
-            { token: "My Tokens", tokenImg: "", contractAddress: "" },
-            ...data.data.items.map(
-              (item: {
-                contract_ticker_symbol: string;
-                logo_url: string;
-                contract_address: string;
-              }) => {
-                return {
-                  token: item.contract_ticker_symbol,
-                  tokenImg: item.logo_url,
-                  contractAddress: item.contract_address,
-                };
-              }
-            ),
-          ]);
-        });
-      });
+      const portfolio = useTokenPortfolio(chain, address);
+      setTokenOptions([
+        ...tokenOptions,
+        { token: "My Tokens", tokenImg: "", contractAddress: "" },
+        ...portfolio,
+      ]);
     }
   }, [address, chain]);
   return (
@@ -103,51 +62,11 @@ const Wallet = () => {
           <label className="label">
             <span className="label-text">Asset</span>
           </label>
-          <div className="input-group">
-            <span>
-              <div className="w-10 avatar">
-                {token &&
-                token != "add" &&
-                tokenOptions.filter((e) => e.contractAddress == token).length >
-                  0 ? (
-                  <div className="rounded-full">
-                    <img
-                      src={
-                        tokenOptions.filter(
-                          (e) => e.contractAddress == token
-                        )[0].tokenImg
-                      }
-                    />
-                  </div>
-                ) : (
-                  "$"
-                )}
-              </div>
-            </span>
-            <select
-              className="select"
-              defaultValue="native"
-              onChange={handleChange}
-            >
-              <option value="0" disabled>
-                Select Token
-              </option>
-              {tokenOptions.map((tokenOption, Key) => (
-                <TokenOptions key={Key} {...tokenOption} />
-              ))}
-              <option value="add">Custom Token</option>
-            </select>
-            {token && token !== "add" && (
-              <Input placeholder="Your Amount" type="number" />
-            )}
-          </div>
-          {token == "add" && (
-            <Input
-              label="Enter Contract Address"
-              placeholder="0x..."
-              rightIcon={<button onClick={handleAddToken}>Add</button>}
-            />
-          )}
+          <SelectToken
+            tokenOptions={tokenOptions}
+            token={token}
+            setToken={setToken}
+          />
           {token && token != "add" && (
             <>
               {/* {token.length == 42
