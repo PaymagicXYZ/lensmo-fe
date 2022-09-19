@@ -4,23 +4,40 @@ import {
   erc20ABI,
   useToken,
   erc721ABI,
+  useSendTransaction,
+  usePrepareSendTransaction,
 } from "wagmi";
-const TransferWrite = (props: { config: any; error: any }) => {
-  const { write } = useContractWrite(props.config);
+import { utils } from "ethers";
+import type { UseContractWriteMutationArgs } from "wagmi/dist/declarations/src/hooks/contracts/useContractWrite";
+import type { UseSendTransactionMutationArgs } from "wagmi/dist/declarations/src/hooks/transactions/useSendTransaction";
 
+const TransferWrite = (props: {
+  native?: boolean;
+  config?: any;
+  error: any;
+}) => {
+  let fn:
+    | ((overrideConfig?: UseSendTransactionMutationArgs | undefined) => void)
+    | ((overrideConfig?: UseContractWriteMutationArgs | undefined) => void)
+    | undefined;
+  if (props.native) {
+    const { data, isLoading, isSuccess, sendTransaction } = useSendTransaction(
+      props.config
+    );
+    fn = sendTransaction;
+  } else {
+    const { write } = useContractWrite(props.config);
+    fn = write;
+  }
   return (
     <>
-      <button
-        className="btn btn-primary"
-        disabled={!write}
-        onClick={() => write?.()}
-      >
+      <button className="btn btn-primary" disabled={!fn} onClick={() => fn?.()}>
         Confirm
       </button>
       {props.error && (
         <div className="collapse">
           <input type="checkbox" />
-          <div className="collapse-title alert alert-warning shadow-lg">
+          <div className="mt-8 collapse-title alert alert-warning shadow-lg">
             <div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -56,16 +73,22 @@ export const TransferERC20 = (props: {
     address: props.token,
   });
   const amount = data
-    ? Number(props.amount) * 10 ** data.decimals
-    : props.amount;
-  const { config, error } = usePrepareContractWrite({
-    addressOrName: props.token,
-    contractInterface: erc20ABI,
-    functionName: "transfer",
-    args: [props.to, amount],
-  });
-
-  return <TransferWrite config={config} error={error} />;
+    ? utils.formatUnits(props.amount, data.decimals)
+    : utils.parseEther(props.amount);
+  if (props.token === "native") {
+    const { config, error } = usePrepareSendTransaction({
+      request: { to: props.to, value: amount },
+    });
+    return <TransferWrite config={config} error={error} />;
+  } else {
+    const { config, error } = usePrepareContractWrite({
+      addressOrName: props.token,
+      contractInterface: erc20ABI,
+      functionName: "transfer",
+      args: [props.to, amount],
+    });
+    return <TransferWrite config={config} error={error} />;
+  }
 };
 
 export const TransferERC721 = (props: {

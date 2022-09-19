@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Web3Wrapper } from "../Web3/Web3Wrapper";
 import { useAccount, useNetwork } from "wagmi";
 import {
@@ -11,17 +11,23 @@ import { Input } from "../Inputs/Input";
 import { getWallet } from "../../../utils/getWallet";
 
 const TokenOptions = (props: { token: string; contractAddress: string }) => (
-  <option value={props.contractAddress}>{props.token}</option>
+  <option
+    value={props.contractAddress}
+    disabled={props.contractAddress ? false : true}
+  >
+    {props.token}
+  </option>
 );
 
 const Wallet = () => {
   const { address, isConnecting, isDisconnected } = useAccount();
   const { chain } = useNetwork();
-  const tokenOptions: TokenOption[] =
+  const [tokenOptions, setTokenOptions] = useState(
     chain && Object.keys(defaultTokenOptions).includes(chain.name)
       ? defaultTokenOptions[chain.name]
-      : [];
-  const [token, setToken] = useState("");
+      : []
+  );
+  const [token, setToken] = useState("native");
   const [destinationAddress, setDestinationAddress] = useState("");
   const [amount, setAmount] = useState("0");
   const handleChange = (e: { target: { value: string } }) => {
@@ -56,6 +62,38 @@ const Wallet = () => {
       });
     }
   };
+  useEffect(() => {
+    if (address && chain) {
+      const chainNameForId = {
+        Polygon: 137,
+      };
+      const chainId = chainNameForId[chain.name as keyof typeof chainNameForId];
+      const url = `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/?key=${
+        import.meta.env.PUBLIC_COVALENT_API_KEY
+      }`;
+      fetch(url).then((res) => {
+        res.json().then((data) => {
+          setTokenOptions([
+            ...tokenOptions,
+            { token: "My Tokens", tokenImg: "", contractAddress: "" },
+            ...data.data.items.map(
+              (item: {
+                contract_ticker_symbol: string;
+                logo_url: string;
+                contract_address: string;
+              }) => {
+                return {
+                  token: item.contract_ticker_symbol,
+                  tokenImg: item.logo_url,
+                  contractAddress: item.contract_address,
+                };
+              }
+            ),
+          ]);
+        });
+      });
+    }
+  }, [address, chain]);
   return (
     <>
       {isConnecting && <div>Connecting...</div>}
@@ -91,8 +129,8 @@ const Wallet = () => {
               </div>
             </span>
             <select
-              className="select select-bordered"
-              defaultValue="0"
+              className="select"
+              defaultValue="native"
               onChange={handleChange}
             >
               <option value="0" disabled>
@@ -116,12 +154,14 @@ const Wallet = () => {
           )}
           {token && token != "add" && (
             <>
-              {token.substring(0, 4)}...{token.substring(token.length - 4)}
-              <label className="label">
-                <span className="label-text">
-                  <Balance address={address} token={token} />
-                </span>
-              </label>
+              {/* {token.length == 42
+                ? `${token.substring(0, 4)}...${token.substring(
+                    token.length - 4
+                  )}`
+                : token} */}
+              <span className="label-text text-gray-400">
+                <Balance address={address} token={token} />
+              </span>
               {destinationAddress ? (
                 <TransferERC20
                   token={token}

@@ -40,9 +40,9 @@ const Wallet = () => {
       });
     }
   };
+  const chainName = chain && chainForCenterChainName[chain.network as Chain];
+  const endpoint = `https://api.center.dev/v1/${chainName}/account/${address}/assets-owned?limit=12`;
   useEffect(() => {
-    const chainName = chainForCenterChainName[chain!.network as Chain];
-    const endpoint = `https://api.center.dev/v1/${chainName}/account/${address}/assets-owned`;
     fetch(endpoint, {
       method: "GET",
       headers: {
@@ -73,7 +73,21 @@ const Wallet = () => {
       tokenId: NFT.tokenId,
     });
   };
-
+  const [offset, setOffset] = useState(0);
+  const handleLoadMore = () => {
+    const newEndpoint = `${endpoint}&offset=${offset}`;
+    fetch(newEndpoint, {
+      method: "GET",
+      headers: {
+        "X-API-Key": import.meta.env.PUBLIC_CENTER_API_KEY,
+      },
+    }).then((res) => {
+      res.json().then((data) => {
+        setNFTList(NFTList.concat(data.items));
+        setOffset(offset + 12);
+      });
+    });
+  };
   return (
     <>
       {isConnecting && <div>Connecting...</div>}
@@ -87,7 +101,14 @@ const Wallet = () => {
           <label className="label">
             <span className="label-text">NFT Collection</span>
           </label>
-          <NFTCollection NFTList={NFTList} />
+          {NFTList.length > 0 && (
+            <>
+              <NFTCollection NFTList={NFTList} />
+              <a onClick={handleLoadMore} className="cursor-pointer">
+                Load more
+              </a>
+            </>
+          )}
           <Input
             label="Enter Contract Address"
             placeholder={selectedNFT.contract}
