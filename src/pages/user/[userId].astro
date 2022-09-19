@@ -20,7 +20,7 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
         <Icon name="eva:arrow-back-fill" class="w-8" />
       </a>
       <p
-        class="font-sans antialiased text-gray-600 basis-1/2 text-right"
+        class="font-sans antialiased text-gray-600 basis-1/2 text-right hidden"
         id="username"
       >
         {String(Astro.url.pathname.split("/")[2])}
@@ -64,8 +64,8 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
                 Claim
               </label>
             </div>
-            <div class="h-48 mx-auto">Tokens & NFTs</div>
-            <Feed client:only="react" />
+            {false && <div class="h-48 mx-auto">Tokens & NFTs</div>}
+            {false && <Feed client:only="react" />}
             <SendModal />
             <ClaimModal provider={network} userInfo={userInfo} />
           </div>
