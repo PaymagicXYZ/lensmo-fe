@@ -124,8 +124,8 @@ export const ens = {
   },
 };
 
-import { ApolloClient, gql } from "@apollo/client/core";
-import { InMemoryCache } from "@apollo/client/cache";
+import { ApolloClient, gql } from "@apollo/client/core/index.js";
+import { InMemoryCache } from "@apollo/client/cache/index.js";
 export const lens = {
   name: "lens",
   logo: "lens",
