@@ -1,5 +1,5 @@
 import supabase from "./supabaseClient";
-
+import { ens, lens } from "./constants";
 export const getWalletAddressFromId = async (walletId: number | number[]) => {
   const { data: receive_wallets, error } = await supabase
     .from("receive_wallets")
@@ -21,17 +21,27 @@ export const addNewWallet = async (username: string) => {
   return data;
 };
 export const getWallet = async (username: string) => {
-  const { data: escrow_users, error } = await supabase
-    .from("escrow_users")
-    .select("receive_wallet_id")
-    .in("user_id", [username]);
-  if (error) {
-    return error?.message;
-  }
-  if (escrow_users && escrow_users.length > 0) {
-    return getWalletAddressFromId(escrow_users[0].receive_wallet_id);
+  if (new RegExp("^lens").test(username)) {
+    return lens.resolveUser(username.split(":")[1]).then((data) => {
+      return data ? data.description : null;
+    });
+  } else if (new RegExp("^ens").test(username)) {
+    return ens.resolveUser(username.split(":")[1]).then((data) => {
+      return data ? data.description : null;
+    });
   } else {
-    const newWallet = await addNewWallet(username);
-    return getWalletAddressFromId(newWallet[0].receive_wallet_id);
+    const { data: escrow_users, error } = await supabase
+      .from("escrow_users")
+      .select("receive_wallet_id")
+      .in("user_id", [username]);
+    if (error) {
+      return error?.message;
+    }
+    if (escrow_users && escrow_users.length > 0) {
+      return getWalletAddressFromId(escrow_users[0].receive_wallet_id);
+    } else {
+      const newWallet = await addNewWallet(username);
+      return getWalletAddressFromId(newWallet[0].receive_wallet_id);
+    }
   }
 };
