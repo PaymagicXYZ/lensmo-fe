@@ -30,7 +30,11 @@ export const Web3Wrapper = (props: { children: ReactNode }) => {
       <RainbowKitProvider
         chains={chains}
         children={props.children}
-        theme={lightTheme({ accentColor: "#570DF8", borderRadius: "medium" })}
+        theme={lightTheme({
+          accentColor: "#01DFA8",
+          accentColorForeground: "002E22",
+          borderRadius: "medium",
+        })}
       />
     </WagmiConfig>
   );

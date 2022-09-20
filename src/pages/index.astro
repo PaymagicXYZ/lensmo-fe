@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import { Connect } from "../components/Web3/Connect";
 import Search from "../components/Search/Search.astro";
 import { Icon } from "astro-icon";
+import logoCoverImage from "./public/logo-cover.png";
 ---
 
 <Layout title="Welcome to Lensmo.">
@@ -11,11 +12,11 @@ import { Icon } from "astro-icon";
       <div class="flex flex-row justify-end">
         <Connect client:only="react" />
       </div>
-      <div class="mb-4 mt-12 flex flex-col content-center">
+      <div class="mb-4 flex flex-col content-center">
         <h1 class="leading-none mx-auto mt-2">
           <span class="text-gradient">Lensmo</span>
         </h1>
-        <h3 class="mx-auto text-slate-500">
+        <h3 class="mx-auto mt-2 text-slate-500">
           Send NFTs or tokens to <span class="italic">anyone</span>, no wallet
           required
         </h3>
@@ -40,12 +41,12 @@ import { Icon } from "astro-icon";
 <style>
   :root {
     --astro-gradient: linear-gradient(0deg, #4f39fa, #da62c4);
-    --lensmo-gradient: linear-gradient(0deg, #4158d0, ##aef80d);
+    --lensmo-gradient: linear-gradient(0deg, #01dfa8, #b9db48);
   }
 
   .text-gradient {
     font-weight: 900;
-    background-image: var(--astro-gradient);
+    background-image: var(--lensmo-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-size: 100% 200%;

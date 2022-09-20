@@ -5,8 +5,8 @@ module.exports = {
     themes: [
       "lemonade",
       {
-        mytheme: {
-          primary: "#570DF8",
+        lensmo: {
+          primary: "#01DDA7",
           secondary: "#F000B8",
           accent: "#37CDBE",
           neutral: "#3D4451",
