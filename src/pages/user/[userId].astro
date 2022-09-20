@@ -48,11 +48,6 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
                 <span class="capitalize">{network}</span>
               </h2>
               <h4 class="mx-auto">{userInfo.description}</h4>
-              <h4 class="mx-auto text-slate-500 mt-2">
-                <a href={networkInfo.url + user} target="_blank">
-                  View Wallet
-                </a>
-              </h4>
             </div>
             <div class="card-actions mx-auto">
               <label class="btn btn-primary" for="send">
@@ -64,6 +59,14 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
                 Claim
               </label>
             </div>
+            <div class="flex flex-col justify-center">
+              <h4 class="mx-auto text-slate-500 my-8">
+                <a href={networkInfo.url + user} target="_blank">
+                  View Wallet
+                </a>
+              </h4>
+            </div>
+
             {false && <div class="h-48 mx-auto">Tokens & NFTs</div>}
             {false && <Feed client:only="react" />}
             <SendModal />
