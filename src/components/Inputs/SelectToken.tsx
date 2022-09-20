@@ -14,8 +14,10 @@ export const SelectToken = (props: {
   tokenOptions: { token: string; contractAddress: string; tokenImg: string }[];
   token: string;
   setToken: (token: string) => void;
+  hideAmount?: boolean;
 }) => {
   const { tokenOptions, token, setToken } = props;
+  const hideAmount = props.hideAmount ? true : false;
   const handleChange = (e: { target: { value: string } }) => {
     setToken(e.target.value);
   };
@@ -69,7 +71,7 @@ export const SelectToken = (props: {
           )}
           <option value="add">Custom Token</option>
         </select>
-        {token && token !== "add" && (
+        {token && token !== "add" && !hideAmount && (
           <Input placeholder="Your Amount" type="number" />
         )}
       </div>

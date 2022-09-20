@@ -88,6 +88,8 @@ export const TransferERC20 = (props: {
       });
       return <TransferWrite config={config} error={error} />;
     }
+  } else {
+    return <div>Loading...</div>;
   }
 };
 
