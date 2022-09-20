@@ -8,6 +8,9 @@ import Feed from "../../components/Feed/Feed";
 const [network, user] = Astro.url.pathname.split("/")[2].split(":");
 const networkInfo = supportedNetworks.filter((e) => e.name === network)[0];
 const userInfo = networkInfo && (await networkInfo.resolveUser(user));
+import { Image } from "@astrojs/image/components";
+import missingAccountImage from "./public/missing-account.png";
+
 // import { LoggedInAs } from "../../components/Accounts/User";
 ---
 
@@ -66,7 +69,6 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
                 </a>
               </h4>
             </div>
-
             {false && <div class="h-48 mx-auto">Tokens & NFTs</div>}
             {false && <Feed client:only="react" />}
             <SendModal />
@@ -81,7 +83,14 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
         )
       ) : (
         <div class="card-body flex flex-col overflow-y-scroll">
-          <h2 class="card-title mx-auto">
+          <Image
+            class="mx-auto"
+            src={missingAccountImage}
+            alt="missing account"
+            height={200}
+            width={220}
+          />
+          <h2 class="card-title mx-auto mt-2">
             Network or user is not found ("{network}"), please try again.
           </h2>
         </div>
