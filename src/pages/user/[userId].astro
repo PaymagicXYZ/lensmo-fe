@@ -73,15 +73,18 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
             <ClaimModal provider={network} userInfo={userInfo} />
           </div>
         ) : (
-          <h2 class="card-title">
-            Unable to find your account. Please check your username.
-          </h2>
+          <div class="card-body flex flex-col overflow-y-scroll">
+            <h2 class="card-title mx-auto">
+              Network or user is not found ("{network}"), please try again.
+            </h2>
+          </div>
         )
       ) : (
-        <h2 class="card-title">
-          Network {network} is not supported, please check our documentation for
-          the supported networks
-        </h2>
+        <div class="card-body flex flex-col overflow-y-scroll">
+          <h2 class="card-title mx-auto">
+            Network or user is not found ("{network}"), please try again.
+          </h2>
+        </div>
       )
     }
   </div>
