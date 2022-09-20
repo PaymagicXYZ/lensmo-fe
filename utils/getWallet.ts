@@ -1,5 +1,5 @@
 import supabase from "./supabaseClient";
-import { ens, lens } from "./constants";
+import { ens, lens } from "./networks";
 export const getWalletAddressFromId = async (walletId: number | number[]) => {
   const { data: receive_wallets, error } = await supabase
     .from("receive_wallets")

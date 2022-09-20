@@ -3,7 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import SendModal from "../../components/Send/SendModal.astro";
 import ClaimModal from "../../components/Claim/ClaimModal.astro";
 import { Icon } from "astro-icon";
-import { supportedNetworks } from "../../../utils/constants";
+import { supportedNetworks } from "../../../utils/networks";
 const [network, user] = Astro.url.pathname.split("/")[2].split(":");
 const networkInfo = supportedNetworks.filter((e) => e.name === network)[0];
 const userInfo = networkInfo && (await networkInfo.resolveUser(user));
