@@ -2,13 +2,9 @@
 import Layout from "../../layouts/Layout.astro";
 import SendModal from "../../components/Send/SendModal.astro";
 import { Icon } from "astro-icon";
-<<<<<<< HEAD
 import { supportedNetworks } from "../../../utils/constants";
 import ClaimModal from "../../components/Claim/ClaimModal.astro";
 import Feed from "../../components/Feed/Feed";
-=======
-import { supportedNetworks } from "../../../utils/networks";
->>>>>>> 5e5defb7f04c35caa986dda86d3284a73a3bb842
 const [network, user] = Astro.url.pathname.split("/")[2].split(":");
 const networkInfo = supportedNetworks.filter((e) => e.name === network)[0];
 const userInfo = networkInfo && (await networkInfo.resolveUser(user));
