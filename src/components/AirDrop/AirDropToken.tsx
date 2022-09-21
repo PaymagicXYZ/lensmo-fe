@@ -3,10 +3,11 @@ import { useTokenPortfolio } from "../Web3/hooks/useTokenPortfolio";
 import { SelectToken } from "../Inputs/SelectToken";
 import { useState, useEffect } from "react";
 import { Balance } from "../Web3/Balance";
-import { defaultTokenOptions } from "../../../utils/defaultTokenOptions";
+// import { defaultTokenOptions } from "../../../utils/defaultTokenOptions";
 import { getWallet } from "../../../utils/getWallet";
-import { utils } from "ethers";
 import { DISPERSE_CONTRACTS } from "../../../utils/contracts";
+import { ApproveERC20 } from "../Web3/Approve";
+import { DisperseTokens } from "../Web3/Disperse";
 
 export const AirDropToken = () => {
   const { chain } = useNetwork();
@@ -17,6 +18,8 @@ export const AirDropToken = () => {
     { user: string; amount: string }[]
   >([]);
   const [amount, setAmount] = useState(0);
+  const disperseContract =
+    chain && DISPERSE_CONTRACTS[chain.name as keyof typeof DISPERSE_CONTRACTS];
   // const nativeToken =
   //   chain && Object.keys(defaultTokenOptions).includes(chain.name)
   //     ? defaultTokenOptions[chain.name][0]
@@ -43,7 +46,11 @@ export const AirDropToken = () => {
     setRecipients(recipients.concat(JSON.parse(input.value)));
     input.value = "";
   };
-  const handleApprove = async (e: any) => {
+  const [parsedTx, setParsedTx] = useState<{ to: string[]; value: string[] }>({
+    to: [],
+    value: [],
+  });
+  const handleApprove = async () => {
     const Txs = Promise.all(
       recipients.map(async (recipient) => {
         return {
@@ -52,9 +59,10 @@ export const AirDropToken = () => {
         };
       })
     );
-    const disperseContract =
-      chain &&
-      DISPERSE_CONTRACTS[chain.name as keyof typeof DISPERSE_CONTRACTS];
+    setParsedTx({
+      to: (await Txs).map((tx) => tx.to),
+      value: (await Txs).map((tx) => tx.value),
+    });
   };
 
   useEffect(() => {
@@ -152,6 +160,23 @@ export const AirDropToken = () => {
           airdrop
         </a>
       )}
+      {parsedTx.to.length > 0 && disperseContract && (
+        <ApproveERC20
+          token={token}
+          spender={disperseContract}
+          amount={String(amount)}
+        />
+      )}
+      {/* {parsedTx.to.length > 0 && disperseContract && address && (
+        <DisperseTokens
+          token={token}
+          owner={address}
+          spender={disperseContract}
+          amount={String(amount)}
+          addresses={parsedTx.to}
+          valueArray={parsedTx.value}
+        />
+      )} */}
     </div>
   );
 };
