@@ -20,7 +20,8 @@ export const addNewWallet = async (username: string) => {
   }
   return data;
 };
-export const getWallet = async (username: string) => {
+
+export const checkWallet = async (username: string) => {
   if (new RegExp("^lens").test(username)) {
     return lens.resolveUser(username.split(":")[1]).then((data) => {
       return data ? data.description : null;
@@ -39,9 +40,16 @@ export const getWallet = async (username: string) => {
     }
     if (escrow_users && escrow_users.length > 0) {
       return getWalletAddressFromId(escrow_users[0].receive_wallet_id);
-    } else {
-      const newWallet = await addNewWallet(username);
-      return getWalletAddressFromId(newWallet[0].receive_wallet_id);
     }
+  }
+};
+
+export const getWallet = async (username: string) => {
+  const wallet = await checkWallet(username);
+  if (wallet) {
+    return wallet;
+  } else {
+    const newWallet = await addNewWallet(username);
+    return getWalletAddressFromId(newWallet[0].receive_wallet_id);
   }
 };

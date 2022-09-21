@@ -7,6 +7,8 @@ import { supportedNetworks } from "../../../utils/networks";
 const [network, user] = Astro.url.pathname.split("/")[2].split(":");
 const networkInfo = supportedNetworks.filter((e) => e.name === network)[0];
 const userInfo = networkInfo && (await networkInfo.resolveUser(user));
+import { checkWallet } from "../../../utils/getWallet";
+const wallet = await checkWallet(Astro.url.pathname.split("/")[2]);
 // import { LoggedInAs } from "../../components/Accounts/User";
 ---
 
@@ -37,7 +39,6 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
               </div>
               <Icon class="w-10 inlay" name={networkInfo.logo} />
             </div>
-
             <div class="flex flex-col justify-center">
               <h2 class="card-title mx-auto">
                 <a href={networkInfo.url + user} target="_blank">
@@ -49,11 +50,6 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
               <p class="mx-auto" id="destination">
                 {userInfo.description}
               </p>
-              <h4 class="mx-auto text-slate-500">
-                <a href={networkInfo.url + user} target="_blank">
-                  View Wallet
-                </a>
-              </h4>
             </div>
             <div class="card-actions mx-auto">
               <label class="btn btn-primary" for="send">
@@ -64,6 +60,25 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
                 <Icon name="carbon:piggy-bank" class="w-6" />
                 Claim
               </label>
+            </div>
+            <div class="flex flex-col justify-center">
+              {wallet ? (
+                <h4 class="mx-auto text-slate-500">
+                  <a
+                    href={`https://zapper.fi/account/${wallet}`}
+                    target="_blank"
+                  >
+                    View Wallet
+                  </a>
+                </h4>
+              ) : (
+                <div
+                  class="tooltip"
+                  data-tip="This user has not been given any digital assets yet. When they are sent some NFTs or tokens, a wallet will be created automatically and will be viewable here."
+                >
+                  <i class="mx-auto text-slate-500">No wallet created yet</i>
+                </div>
+              )}
             </div>
             <SendModal />
             <ClaimModal provider={network} userInfo={userInfo} />
