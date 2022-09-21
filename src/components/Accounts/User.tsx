@@ -25,9 +25,10 @@ const handleClaim = (newOwnerAddress: string) => {
   fetch("https://rvhpnxjvpgatvgaubbyt.functions.supabase.co/claim", {
     method: "POST",
     headers: {
-      "Content-Type": "application/javascript",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
       "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "authorization, x-client-info, apikey",
     },
     body: JSON.stringify({
       newOwnerAddress: newOwnerAddress,

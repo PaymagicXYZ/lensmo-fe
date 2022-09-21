@@ -49,17 +49,59 @@ const Wallet = () => {
   return (
     <>
       {isConnecting && <div>Connecting...</div>}
-      {isDisconnected && <div>Please connect your wallet to continue.</div>}
+      {isDisconnected && (
+        <div class="my-4"> Please connect your wallet to continue.</div>
+      )}
       {address && (
         <form className="form-control">
           <label className="label">
             <span className="label-text">Asset</span>
           </label>
-          <SelectToken
-            tokenOptions={tokenOptions}
-            token={token}
-            setToken={setToken}
-          />
+          <div className="input-group">
+            <span>
+              <div className="w-10 avatar">
+                {token &&
+                token != "add" &&
+                tokenOptions.filter((e) => e.contractAddress == token).length >
+                  0 ? (
+                  <div className="rounded-full">
+                    <img
+                      src={
+                        tokenOptions.filter(
+                          (e) => e.contractAddress == token
+                        )[0].tokenImg
+                      }
+                    />
+                  </div>
+                ) : (
+                  "$"
+                )}
+              </div>
+            </span>
+            <select
+              className="select"
+              defaultValue="native"
+              onChange={handleChange}
+            >
+              <option value="0" disabled>
+                Select Token
+              </option>
+              {tokenOptions.map((tokenOption, Key) => (
+                <TokenOptions key={Key} {...tokenOption} />
+              ))}
+              <option value="add">Custom Token</option>
+            </select>
+            {token && token !== "add" && (
+              <Input placeholder="Your Amount" type="number" />
+            )}
+          </div>
+          {token == "add" && (
+            <Input
+              label="Enter Contract Address"
+              placeholder="0x..."
+              rightIcon={<button onClick={handleAddToken}>Add</button>}
+            />
+          )}
           {token && token != "add" && (
             <>
               {/* {token.length == 42
