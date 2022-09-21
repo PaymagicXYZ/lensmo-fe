@@ -4,11 +4,12 @@ import SendModal from "../../components/Send/SendModal.astro";
 import { Icon } from "astro-icon";
 import { supportedNetworks } from "../../../utils/networks";
 import ClaimModal from "../../components/Claim/ClaimModal.astro";
+import Feed from "../../components/Feed/Feed";
 const [network, user] = Astro.url.pathname.split("/")[2].split(":");
 const networkInfo = supportedNetworks.filter((e) => e.name === network)[0];
 const userInfo = networkInfo && (await networkInfo.resolveUser(user));
-import { Image } from "@astrojs/image/components";
-import missingAccountImage from "/missing-account.png";
+// import { Image } from "@astrojs/image/components";
+// import missingAccountImage from "/missing-account.png";
 import { checkWallet } from "../../../utils/getWallet";
 const wallet = await checkWallet(Astro.url.pathname.split("/")[2]);
 // import { LoggedInAs } from "../../components/Accounts/User";
@@ -94,13 +95,6 @@ const wallet = await checkWallet(Astro.url.pathname.split("/")[2]);
         )
       ) : (
         <div class="card-body flex flex-col overflow-y-scroll">
-          <Image
-            class="mx-auto"
-            src={missingAccountImage}
-            alt="missing account"
-            height={200}
-            width={220}
-          />
           <h2 class="card-title mx-auto mt-2">
             Network or user is not found ("{network}"), please try again.
           </h2>
