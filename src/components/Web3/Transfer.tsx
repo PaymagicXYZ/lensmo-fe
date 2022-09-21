@@ -72,22 +72,24 @@ export const TransferERC20 = (props: {
   const { data, isError, isLoading } = useToken({
     address: props.token,
   });
-  const amount = data
-    ? utils.formatUnits(props.amount, data.decimals)
-    : utils.parseEther(props.amount);
-  if (props.token === "native") {
-    const { config, error } = usePrepareSendTransaction({
-      request: { to: props.to, value: amount },
-    });
-    return <TransferWrite config={config} error={error} />;
+  if (!isError && !isLoading && data) {
+    const amount = utils.parseUnits(props.amount, Number(data.decimals));
+    if (props.token === "native") {
+      const { config, error } = usePrepareSendTransaction({
+        request: { to: props.to, value: amount },
+      });
+      return <TransferWrite config={config} error={error} />;
+    } else {
+      const { config, error } = usePrepareContractWrite({
+        addressOrName: props.token,
+        contractInterface: erc20ABI,
+        functionName: "transfer",
+        args: [props.to, amount],
+      });
+      return <TransferWrite config={config} error={error} />;
+    }
   } else {
-    const { config, error } = usePrepareContractWrite({
-      addressOrName: props.token,
-      contractInterface: erc20ABI,
-      functionName: "transfer",
-      args: [props.to, amount],
-    });
-    return <TransferWrite config={config} error={error} />;
+    return <div>Loading...</div>;
   }
 };
 

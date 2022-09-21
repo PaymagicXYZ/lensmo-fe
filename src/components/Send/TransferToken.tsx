@@ -7,17 +7,9 @@ import {
 } from "../../../utils/defaultTokenOptions";
 import { Balance } from "../Web3/Balance";
 import { TransferERC20 } from "../Web3/Transfer";
-import { Input } from "../Inputs/Input";
 import { getWallet } from "../../../utils/getWallet";
-
-const TokenOptions = (props: { token: string; contractAddress: string }) => (
-  <option
-    value={props.contractAddress}
-    disabled={props.contractAddress ? false : true}
-  >
-    {props.token}
-  </option>
-);
+import { useTokenPortfolio } from "../Web3/hooks/useTokenPortfolio";
+import { SelectToken } from "../Inputs/SelectToken";
 
 const Wallet = () => {
   const { address, isConnecting, isDisconnected } = useAccount();
@@ -27,21 +19,10 @@ const Wallet = () => {
       ? defaultTokenOptions[chain.name]
       : []
   );
-  const [token, setToken] = useState("native");
+
   const [destinationAddress, setDestinationAddress] = useState("");
   const [amount, setAmount] = useState("0");
-  const handleChange = (e: { target: { value: string } }) => {
-    setToken(e.target.value);
-  };
-  const handleAddToken = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    const form = (e.target as HTMLButtonElement).form!;
-    console.log(form[0] as HTMLOptionElement);
-    // = (form[1] as HTMLInputElement).value;
-    setToken((form[1] as HTMLInputElement).value);
-  };
+  const [token, setToken] = useState("native");
   const handleSend = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     const amount = (
       (
@@ -51,49 +32,20 @@ const Wallet = () => {
     setAmount(amount);
     const username =
       document.getElementById("username")!.textContent?.trim() || "";
-    if (new RegExp("^[lens|ens]").test(username)) {
-      const wallet = document
-        .getElementById("destination")!
-        .textContent?.trim();
-      setDestinationAddress(wallet!);
-    } else {
-      getWallet(username).then((wallet) => {
-        setDestinationAddress(wallet);
-      });
-    }
+    getWallet(username).then((wallet) => {
+      setDestinationAddress(wallet);
+    });
   };
+  const portfolio = chain && address ? useTokenPortfolio(chain, address) : [];
   useEffect(() => {
-    if (address && chain) {
-      const chainNameForId = {
-        Polygon: 137,
-      };
-      const chainId = chainNameForId[chain.name as keyof typeof chainNameForId];
-      const url = `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/?key=${
-        import.meta.env.PUBLIC_COVALENT_API_KEY
-      }`;
-      fetch(url).then((res) => {
-        res.json().then((data) => {
-          setTokenOptions([
-            ...tokenOptions,
-            { token: "My Tokens", tokenImg: "", contractAddress: "" },
-            ...data.data.items.map(
-              (item: {
-                contract_ticker_symbol: string;
-                logo_url: string;
-                contract_address: string;
-              }) => {
-                return {
-                  token: item.contract_ticker_symbol,
-                  tokenImg: item.logo_url,
-                  contractAddress: item.contract_address,
-                };
-              }
-            ),
-          ]);
-        });
-      });
-    }
-  }, [address, chain]);
+    portfolio.length > 0 &&
+      setTokenOptions([
+        ...tokenOptions,
+        { token: "My Tokens", tokenImg: "", contractAddress: "" },
+        ...portfolio,
+      ]);
+  }, [portfolio]);
+
   return (
     <>
       {isConnecting && <div>Connecting...</div>}
@@ -102,12 +54,10 @@ const Wallet = () => {
       )}
       {address && (
         <form className="form-control">
-          <div className="my-4">
-            <select className="select max-w-xs" disabled>
-              <option value="0">Polygon</option>
-            </select>
-          </div>
-          <div className="input-group bg-white!">
+          <label className="label">
+            <span className="label-text">Asset</span>
+          </label>
+          <div className="input-group">
             <span>
               <div className="w-10 avatar">
                 {token &&

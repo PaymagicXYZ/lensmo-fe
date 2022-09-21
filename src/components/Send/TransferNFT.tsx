@@ -29,16 +29,9 @@ const Wallet = () => {
     });
     const username =
       document.getElementById("username")!.textContent?.trim() || "";
-    if (new RegExp("^[lens|ens]").test(username)) {
-      const wallet = document
-        .getElementById("destination")!
-        .textContent?.trim();
-      setDestinationAddress(wallet!);
-    } else {
-      getWallet(username).then((wallet) => {
-        setDestinationAddress(wallet);
-      });
-    }
+    getWallet(username).then((wallet) => {
+      setDestinationAddress(wallet);
+    });
   };
   const chainName = chain && chainForCenterChainName[chain.network as Chain];
   const endpoint = `https://api.center.dev/v1/${chainName}/account/${address}/assets-owned?limit=12`;

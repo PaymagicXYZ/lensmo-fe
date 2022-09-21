@@ -99,7 +99,7 @@ const discord = {
   },
 };
 
-const ens = {
+export const ens = {
   name: "ens",
   logo: "ens",
   apiKey: import.meta.env.ALCHEMY_ID,
@@ -124,9 +124,9 @@ const ens = {
   },
 };
 
-import pkg from "@apollo/client";
-const { ApolloClient, InMemoryCache, gql } = pkg;
-const lens = {
+import { ApolloClient, gql } from "@apollo/client/core/index.js";
+import { InMemoryCache } from "@apollo/client/cache/index.js";
+export const lens = {
   name: "lens",
   logo: "lens",
   apiKey: import.meta.env.LENS_TOKEN,
@@ -189,6 +189,3 @@ export const supportedNetworks = [twitter, github, discord, ens, lens];
 export const availableProviders = supportedNetworks.map((network) => {
   network.name;
 });
-
-export const DISPERSENFT_POLYGON = "0x56a351f917cC65C5023C347B693fd3588B921250";
-export const DISPERSE_POLYGON = "0xeA1da800c794228DcD8DA1e4A8F824F7F52999FB";
