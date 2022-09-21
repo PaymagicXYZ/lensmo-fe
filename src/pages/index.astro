@@ -24,6 +24,7 @@ import { Icon } from "astro-icon";
       <div class="flex mt-4 space-x-4 mx-auto">
         <button
           class="btn btn-primary"
+          id="send"
           onclick="window.location.href = `/user/${getElementById('userId').value}`"
         >
           <Icon class="w-6" name="carbon:send-alt-filled" />Send</button
@@ -64,3 +65,14 @@ import { Icon } from "astro-icon";
     }
   }
 </style>
+
+<script is:inline>
+  const input = document.getElementById("userId");
+  const send = document.getElementById("send");
+  input.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      send.click();
+    }
+  });
+</script>
