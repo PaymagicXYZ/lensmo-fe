@@ -23,6 +23,7 @@ const Wallet = () => {
   const handleSend = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     const form = (e.target as HTMLElement).parentElement as HTMLFormElement;
     const id = (form[2] as HTMLInputElement).value;
+    const message = (form[3] as HTMLInputElement).value;
     setSelectedNFT({
       contract: selectedNFT.contract,
       tokenId: id,
@@ -31,6 +32,16 @@ const Wallet = () => {
       document.getElementById("username")!.textContent?.trim() || "";
     getWallet(username).then((wallet) => {
       setDestinationAddress(wallet);
+      fetch("https://eoy89exhwmio8s8.m.pipedream.net/", {
+        method: "POST",
+        body: JSON.stringify({
+          username,
+          message,
+          id,
+          from: address,
+          recipient: wallet,
+        }),
+      });
     });
   };
   const chainName = chain && chainForCenterChainName[chain.network as Chain];
@@ -113,6 +124,7 @@ const Wallet = () => {
                 label="Enter Your NFT ID"
                 placeholder={selectedNFT.tokenId}
               />
+              <Input placeholder="Comment" />
               {destinationAddress && selectedNFT.tokenId && address ? (
                 <TransferERC721
                   from={address}

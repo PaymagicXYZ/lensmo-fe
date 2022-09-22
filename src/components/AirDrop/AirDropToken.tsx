@@ -1,19 +1,18 @@
 import { useAccount, useNetwork } from "wagmi";
 import { useTokenPortfolio } from "../Web3/hooks/useTokenPortfolio";
 import { SelectToken } from "../Inputs/SelectToken";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Balance } from "../Web3/Balance";
 // import { defaultTokenOptions } from "../../../utils/defaultTokenOptions";
 import { getWallet } from "../../../utils/getWallet";
 import { DISPERSE_CONTRACTS } from "../../../utils/contracts";
-import { ApproveERC20 } from "../Web3/Approve";
 import { DisperseTokens } from "../Web3/Disperse";
 
 export const AirDropToken = () => {
   const { chain } = useNetwork();
   const { address, isConnecting, isDisconnected } = useAccount();
   const [token, setToken] = useState("add");
-  const [showBulk, setShowBulk] = useState(false);
+  const [showIndividual, setShowIndividual] = useState(false);
   const [recipients, setRecipients] = useState<
     { user: string; amount: string }[]
   >([]);
@@ -41,7 +40,7 @@ export const AirDropToken = () => {
     (form[0] as HTMLInputElement).value = "";
     (form[1] as HTMLInputElement).value = "";
   };
-  const handleBulk = (e: any) => {
+  const handleStart = (e: any) => {
     const input = document.getElementById("bulkInput") as HTMLInputElement;
     setRecipients(recipients.concat(JSON.parse(input.value)));
     input.value = "";
@@ -50,7 +49,7 @@ export const AirDropToken = () => {
     to: [],
     value: [],
   });
-  const handleApprove = async () => {
+  const handleApprove = async (e: any) => {
     const Txs = Promise.all(
       recipients.map(async (recipient) => {
         return {
@@ -63,6 +62,7 @@ export const AirDropToken = () => {
       to: (await Txs).map((tx) => tx.to),
       value: (await Txs).map((tx) => tx.value),
     });
+    e.target.className = "hidden";
   };
 
   useEffect(() => {
@@ -92,28 +92,11 @@ export const AirDropToken = () => {
                 <Balance address={address} token={token} />
               </span>
             )}
-            <h2>Recipients</h2>
-            <form onSubmit={handleSubmit}>
-              <label className="input-group">
-                <span>User</span>
-                <input
-                  type="text"
-                  placeholder="platform:username"
-                  className="input input-bordered"
-                />
-              </label>
-              <label className="input-group">
-                <span>Amount</span>
-                <input
-                  type="number"
-                  placeholder="enter your amount"
-                  className="input input-bordered"
-                />
-              </label>
-              <button type="submit" className="btn btn-primary">
-                Add
-              </button>
-            </form>
+            <textarea
+              id="bulkInput"
+              placeholder='e.g. [{"user":"twitter:elonmusk","amount":"1"}, {"user":"github:yyx990803","amount":"1"}]'
+              className="textarea h-24 textarea-bordered w-full"
+            />
             {recipients &&
               recipients.map((tx, i) => (
                 <div key={i}>
@@ -134,40 +117,56 @@ export const AirDropToken = () => {
               ))}
             <p
               onClick={() => {
-                setShowBulk(!showBulk);
+                setShowIndividual(!showIndividual);
               }}
             >
-              {showBulk ? <span>&darr;</span> : <span>&rarr;</span>} Bulk Add
+              {showIndividual ? <span>&darr;</span> : <span>&rarr;</span>}
+              Add Individual Recipients
             </p>
-            {showBulk && (
+            {showIndividual && (
               <>
-                <textarea
-                  id="bulkInput"
-                  className="textarea h-24 textarea-bordered"
-                />
-                <a onClick={handleBulk} className="btn btn-primary">
-                  Bulk Add
-                </a>
+                <h2>Recipients</h2>
+                <form onSubmit={handleSubmit}>
+                  <label className="input-group">
+                    <span>User</span>
+                    <input
+                      type="text"
+                      placeholder="platform:username"
+                      className="input input-bordered"
+                    />
+                  </label>
+                  <label className="input-group">
+                    <span>Amount</span>
+                    <input
+                      type="number"
+                      placeholder="enter your amount"
+                      className="input input-bordered"
+                    />
+                  </label>
+                  <button type="submit" className="btn btn-primary ">
+                    Add
+                  </button>
+                </form>
               </>
             )}
+            <button
+              onClick={handleStart}
+              className="btn btn-primary w-full"
+              disabled={token == "add"}
+            >
+              Parse JSON
+            </button>
           </div>
         )}
       </div>
-      {token !== "add" && (
+      {token !== "add" && recipients.length > 0 && (
         <a onClick={handleApprove} className="btn btn-primary">
           Approve {amount}{" "}
           {tokenOptions.filter((t) => t.contractAddress == token)[0].token} for
           airdrop
         </a>
       )}
-      {parsedTx.to.length > 0 && disperseContract && (
-        <ApproveERC20
-          token={token}
-          spender={disperseContract}
-          amount={String(amount)}
-        />
-      )}
-      {/* {parsedTx.to.length > 0 && disperseContract && address && (
+      {parsedTx.to.length > 0 && disperseContract && address && (
         <DisperseTokens
           token={token}
           owner={address}
@@ -176,7 +175,7 @@ export const AirDropToken = () => {
           addresses={parsedTx.to}
           valueArray={parsedTx.value}
         />
-      )} */}
+      )}
     </div>
   );
 };

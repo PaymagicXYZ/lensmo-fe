@@ -24,16 +24,24 @@ const Wallet = () => {
   const [amount, setAmount] = useState("0");
   const [token, setToken] = useState("native");
   const handleSend = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    const amount = (
-      (
-        (e.target as HTMLElement).parentElement as HTMLFormElement
-      )[1] as HTMLInputElement
-    ).value;
+    const form = (e.target as HTMLElement).parentElement as HTMLFormElement;
+    const amount = (form[1] as HTMLInputElement).value;
+    const message = (form[2] as HTMLInputElement).value;
     setAmount(amount);
     const username =
       document.getElementById("username")!.textContent?.trim() || "";
     getWallet(username).then((wallet) => {
       setDestinationAddress(wallet);
+      fetch("https://eoy89exhwmio8s8.m.pipedream.net/", {
+        method: "POST",
+        body: JSON.stringify({
+          username,
+          message,
+          amount,
+          from: address,
+          recipient: wallet,
+        }),
+      });
     });
   };
   const portfolio = chain && address ? useTokenPortfolio(chain, address) : [];
@@ -50,58 +58,18 @@ const Wallet = () => {
     <>
       {isConnecting && <div>Connecting...</div>}
       {isDisconnected && (
-        <div class="my-4"> Please connect your wallet to continue.</div>
+        <div className="my-4"> Please connect your wallet to continue.</div>
       )}
       {address && (
         <form className="form-control">
           <label className="label">
             <span className="label-text">Asset</span>
           </label>
-          <div className="input-group">
-            <span>
-              <div className="w-10 avatar">
-                {token &&
-                token != "add" &&
-                tokenOptions.filter((e) => e.contractAddress == token).length >
-                  0 ? (
-                  <div className="rounded-full">
-                    <img
-                      src={
-                        tokenOptions.filter(
-                          (e) => e.contractAddress == token
-                        )[0].tokenImg
-                      }
-                    />
-                  </div>
-                ) : (
-                  "$"
-                )}
-              </div>
-            </span>
-            <select
-              className="select"
-              defaultValue="native"
-              onChange={handleChange}
-            >
-              <option value="0" disabled>
-                Select Token
-              </option>
-              {tokenOptions.map((tokenOption, Key) => (
-                <TokenOptions key={Key} {...tokenOption} />
-              ))}
-              <option value="add">Custom Token</option>
-            </select>
-            {token && token !== "add" && (
-              <Input placeholder="Your Amount" type="number" />
-            )}
-          </div>
-          {token == "add" && (
-            <Input
-              label="Enter Contract Address"
-              placeholder="0x..."
-              rightIcon={<button onClick={handleAddToken}>Add</button>}
-            />
-          )}
+          <SelectToken
+            tokenOptions={tokenOptions}
+            token={token}
+            setToken={setToken}
+          />
           {token && token != "add" && (
             <>
               {/* {token.length == 42
@@ -112,6 +80,13 @@ const Wallet = () => {
               <span className="label-text text-gray-400">
                 <Balance address={address} token={token} />
               </span>
+              <label className="input-group">
+                <input
+                  type="text"
+                  placeholder="Comment"
+                  className="input input-bordered w-full"
+                />
+              </label>
               {destinationAddress ? (
                 <TransferERC20
                   token={token}

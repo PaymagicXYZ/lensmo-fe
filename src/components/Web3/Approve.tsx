@@ -12,20 +12,29 @@ const ApproveWrite = (props: {
   error: any;
 }) => {
   const { write, data, isLoading, isSuccess } = useContractWrite(props.config);
-  if (isLoading) {
-    return <div>Executing transaction.</div>;
-  }
-  if (isSuccess) {
-    return <div>Transaction: {JSON.stringify(data)}</div>;
-  }
   return (
     <>
       <button
         className="btn btn-primary"
-        disabled={!write}
+        id="approve-status"
+        disabled={!write || isLoading || isSuccess}
         onClick={() => write?.()}
       >
-        Confirm
+        {isSuccess ? (
+          <>
+            Approval Success{" "}
+            <div
+              className="tooltip"
+              data-tip={`Transaction: ${JSON.stringify(data)}`}
+            >
+              ℹ️
+            </div>
+          </>
+        ) : isLoading ? (
+          "Waiting for approval..."
+        ) : (
+          "Confirm"
+        )}
       </button>
       {props.error && (
         <div className="collapse">
