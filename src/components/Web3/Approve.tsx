@@ -21,12 +21,15 @@ const ApproveWrite = (props: {
         onClick={() => write?.()}
       >
         {isSuccess ? (
-          <div
-            className="tooltip"
-            data-tip={`Transaction: ${JSON.stringify(data)}`}
-          >
-            Approval Success
-          </div>
+          <>
+            Approval Success{" "}
+            <div
+              className="tooltip"
+              data-tip={`Transaction: ${JSON.stringify(data)}`}
+            >
+              ℹ️
+            </div>
+          </>
         ) : isLoading ? (
           "Waiting for approval..."
         ) : (

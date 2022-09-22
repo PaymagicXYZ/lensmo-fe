@@ -66,7 +66,7 @@ export const DisperseTokens = (props: {
     );
     return (
       <>
-        {allowance.lt(amount) ? (
+        {Number(allowance) >= Number(amount) ? (
           <SimpleDisperse
             token={props.token}
             spender={props.spender}
@@ -122,12 +122,15 @@ export const DisperseApproval = (props: {
         onClick={() => write?.()}
       >
         {isSuccess ? (
-          <div
-            className="tooltip"
-            data-tip={`Transaction: ${JSON.stringify(data)}`}
-          >
-            Approval Success
-          </div>
+          <>
+            Approval Success{" "}
+            <div
+              className="tooltip"
+              data-tip={`Transaction: ${JSON.stringify(data)}`}
+            >
+              ℹ️
+            </div>
+          </>
         ) : isLoading ? (
           "Waiting for approval..."
         ) : (
