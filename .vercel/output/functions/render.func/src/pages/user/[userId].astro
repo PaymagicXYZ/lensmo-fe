@@ -1,15 +1,12 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import SendModal from "../../components/Send/SendModal.astro";
+import ClaimModal from "../../components/Claim/ClaimModal.astro";
 import { Icon } from "astro-icon";
 import { supportedNetworks } from "../../../utils/networks";
-import ClaimModal from "../../components/Claim/ClaimModal.astro";
-// import Feed from "../../components/Feed/Feed";
 const [network, user] = Astro.url.pathname.split("/")[2].split(":");
 const networkInfo = supportedNetworks.filter((e) => e.name === network)[0];
 const userInfo = networkInfo && (await networkInfo.resolveUser(user));
-// import { Image } from "@astrojs/image/components";
-// import missingAccountImage from "/missing-account.png";
 import { checkWallet } from "../../../utils/getWallet";
 const wallet = await checkWallet(Astro.url.pathname.split("/")[2]);
 // import { LoggedInAs } from "../../components/Accounts/User";
@@ -17,14 +14,14 @@ const wallet = await checkWallet(Astro.url.pathname.split("/")[2]);
 
 <Layout title="Lensmo-User">
   <div
-    class="card bg-base-100 shadow-xl h-full mx-auto w-full flex flex-col content-center justify-start content-start"
+    class="card bg-base-100 shadow-xl p-6 mx-auto w-full flex flex-col content-center"
   >
-    <div class="flex pt-6 pl-6">
+    <div class="flex flex-row">
       <a href="/" class="basis-1/2">
         <Icon name="eva:arrow-back-fill" class="w-8" />
       </a>
       <p
-        class="font-sans antialiased text-gray-600 basis-1/2 text-right hidden"
+        class="font-sans antialiased text-gray-600 basis-1/2 text-right"
         id="username"
       >
         {String(Astro.url.pathname.split("/")[2])}
@@ -33,7 +30,7 @@ const wallet = await checkWallet(Astro.url.pathname.split("/")[2]);
     {
       networkInfo ? (
         userInfo ? (
-          <div class="card-body flex flex-col overflow-y-scroll">
+          <div class="card-body flex flex-col justify-center">
             <div class="avatar mx-auto">
               <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                 <a href={networkInfo.url + user} target="_blank">
@@ -50,9 +47,9 @@ const wallet = await checkWallet(Astro.url.pathname.split("/")[2]);
                 on
                 <span class="capitalize">{network}</span>
               </h2>
-              <h4 id="destination" class="mx-auto">
+              <p class="mx-auto" id="destination">
                 {userInfo.description}
-              </h4>
+              </p>
             </div>
             <div class="card-actions mx-auto">
               <label class="btn btn-primary" for="send">
@@ -87,18 +84,15 @@ const wallet = await checkWallet(Astro.url.pathname.split("/")[2]);
             <ClaimModal provider={network} userInfo={userInfo} />
           </div>
         ) : (
-          <div class="card-body flex flex-col overflow-y-scroll">
-            <h2 class="card-title mx-auto">
-              Network or user is not found ("{network}"), please try again.
-            </h2>
-          </div>
+          <h2 class="card-title">
+            Unable to find your account. Please check your username.
+          </h2>
         )
       ) : (
-        <div class="card-body flex flex-col overflow-y-scroll">
-          <h2 class="card-title mx-auto mt-2">
-            Network or user is not found ("{network}"), please try again.
-          </h2>
-        </div>
+        <h2 class="card-title">
+          Network {network} is not supported, please check our documentation for
+          the supported networks
+        </h2>
       )
     }
   </div>

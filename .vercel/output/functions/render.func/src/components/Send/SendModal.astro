@@ -1,0 +1,10 @@
+---
+import Modal from "../Modal.astro";
+import { Connect } from "../Web3/Connect";
+import { SendTabs } from "./SendTabs";
+---
+
+<Modal title="Send" id="send">
+  <Connect client:only="react" slot="before-title" />
+  <SendTabs client:only="react" />
+</Modal>

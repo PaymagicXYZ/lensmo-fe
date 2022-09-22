@@ -1,0 +1,1 @@
+import{W as t,C as r}from"./chunks/Web3Wrapper.d594cc84.js";import"./chunks/index.12d2f6c3.js";import{j as o}from"./chunks/jsx-runtime.2da8e926.js";/* empty css                     */import"./chunks/index.34b2e11a.js";const i=()=>o.exports.jsx(t,{children:o.exports.jsx(r,{})});export{i as Connect};

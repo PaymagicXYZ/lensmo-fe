@@ -1,0 +1,11 @@
+---
+const { provider, userInfo } = Astro.props;
+import Modal from "../Modal.astro";
+import { VerifiedUser } from "../Accounts/User";
+---
+
+<Modal title="Sign in to claim" id="claim">
+  <div class="btn-group btn-group-vertical">
+    <VerifiedUser provider={provider} userInfo={userInfo} client:only="react" />
+  </div>
+</Modal>

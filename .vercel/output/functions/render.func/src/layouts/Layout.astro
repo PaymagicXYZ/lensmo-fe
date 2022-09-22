@@ -7,7 +7,7 @@ const { title } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="en" data-theme="lensmo">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -38,26 +38,7 @@ const { title } = Astro.props;
       }
 
       body {
-        height: 100%;
         margin: 0;
-        /* background-color: #4158d0; */
-        background-color: #21c098;
-        background-image: url("../background-cover.png");
-        background-size: contain;
-        min-height: 100vh;
-        /* background-image: linear-gradient(
-          45deg,
-          #01dda7 0%,
-          #c8fa25 57%,
-          #ffffff 100%
-        ); */
-
-        /* background-image: linear-gradient(
-          43deg,
-          #4158d0 0%,
-          #c850c0 46%,
-          #aef80d 100%
-        ); */
       }
     </style>
 
@@ -73,7 +54,6 @@ const { title } = Astro.props;
         margin: auto;
         padding: 1em;
         max-width: 60ch;
-        min-height: 850px;
       }
       code {
         font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
