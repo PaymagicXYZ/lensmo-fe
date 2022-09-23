@@ -2,7 +2,7 @@ import { useAccount, useNetwork } from "wagmi";
 import React, { useState, useEffect } from "react";
 import { getWallet } from "../../../utils/getWallet";
 import { DISPERSENFT_CONTRACTS } from "../../../utils/contracts";
-// import { disperseNFT } from "../Web3/DisperseNFT";
+import { DisperseNFT } from "../Web3/DisperseNFT";
 import { Input } from "../Inputs/Input";
 
 export const AirDropNFT = () => {
@@ -10,7 +10,7 @@ export const AirDropNFT = () => {
   const { address, isConnecting, isDisconnected } = useAccount();
   const [NFTContract, setNFTContract] = useState("");
   const [showIndividual, setShowIndividual] = useState(false);
-  const [recipients, setRecipients] = useState<{ user: string; id: string }[]>(
+  const [recipients, setRecipients] = useState<{ user: string; id: number }[]>(
     []
   );
   const [selectedNFT, setSelectedNFT] = useState({
@@ -29,7 +29,7 @@ export const AirDropNFT = () => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const user = (form[0] as HTMLInputElement).value;
-    const id = (form[1] as HTMLInputElement).value;
+    const id = Number((form[1] as HTMLInputElement).value);
     setRecipients([...recipients, { user, id }]);
     (form[0] as HTMLInputElement).value = "";
     (form[1] as HTMLInputElement).value = "";
@@ -39,7 +39,7 @@ export const AirDropNFT = () => {
     setRecipients(recipients.concat(JSON.parse(input.value)));
     input.value = "";
   };
-  const [parsedTx, setParsedTx] = useState<{ to: string[]; id: string[] }>({
+  const [parsedTx, setParsedTx] = useState<{ to: string[]; id: number[] }>({
     to: [],
     id: [],
   });
@@ -54,7 +54,7 @@ export const AirDropNFT = () => {
     );
     setParsedTx({
       to: (await Txs).map((tx) => tx.to),
-      id: (await Txs).map((tx) => tx.id),
+      id: (await Txs).map((tx) => Number(tx.id)),
     });
     e.target.className = "hidden";
   };
@@ -147,15 +147,15 @@ export const AirDropNFT = () => {
           Approve NFTs for Airdrop
         </a>
       )}
-      {/* {parsedTx.to.length > 0 && disperseNFTContract && address && (
+      {parsedTx.to.length > 0 && disperseNFTContract && address && (
         <DisperseNFT
-          NFTContract
+          NFTContract={NFTContract}
           owner={address}
           spender={disperseNFTContract}
           addresses={parsedTx.to}
           idArray={parsedTx.id}
         />
-      )} */}
+      )}
     </div>
   );
 };
