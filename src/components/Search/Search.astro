@@ -17,8 +17,28 @@
     <input
       type="text"
       id="userId"
-      placeholder="Search…"
+      placeholder="Search..."
       class="w-full focus:outline-none input input-bordered"
     />
+    <button
+      class="btn btn-primary"
+      id="send"
+      onclick="window.location.href = `/user/${getElementById('userId').value}`"
+    >
+      Search
+    </button>
   </div>
+  <p class="text-slate-400 text-xs indent-3">
+    Search for <a
+      class="link-secondary underline decoration-1"
+      href="/user/twitter:elonmusk">twitter:elonmusk</a
+    > |
+    <a
+      class="link-secondary underline decoration-1"
+      href="/user/twitter:joerogan">twitter:joerogan</a
+    > |
+    <a class="link-secondary underline decoration-1" href="/user/ens:vitalik"
+      >ens:vitalik</a
+    >
+  </p>
 </div>
