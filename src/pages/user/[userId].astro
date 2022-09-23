@@ -34,7 +34,7 @@ import Portfolio from "../../components/Accounts/Portfolio.astro";
     {
       networkInfo ? (
         userInfo ? (
-          <div class="card-body flex flex-col overflow-y-scroll">
+          <div class="card-body flex flex-col">
             <div class="avatar mx-auto">
               <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                 <a href={networkInfo.url + user} target="_blank">
@@ -89,14 +89,14 @@ import Portfolio from "../../components/Accounts/Portfolio.astro";
             <ClaimModal provider={network} userInfo={userInfo} />
           </div>
         ) : (
-          <div class="card-body flex flex-col overflow-y-scroll">
+          <div class="card-body flex flex-col">
             <h2 class="card-title mx-auto">
               Network or user is not found ("{network}"), please try again.
             </h2>
           </div>
         )
       ) : (
-        <div class="card-body flex flex-col overflow-y-scroll">
+        <div class="card-body flex flex-col">
           <h2 class="card-title mx-auto mt-2">
             Network or user is not found ("{network}"), please try again.
           </h2>
