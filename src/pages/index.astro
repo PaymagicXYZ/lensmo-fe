@@ -12,24 +12,21 @@ import { Icon } from "astro-icon";
           <span class="text-gradient">Lensmo</span>
         </h1>
         <h3 class="mx-auto mt-2 text-slate-500">
-          Send NFTs or tokens to <span class="italic">anyone</span>, no wallet
-          required
+          Send NFTs/tokens to any social account, no wallet required
         </h3>
       </div>
       <Search />
-      <div class="flex mt-4 space-x-4 mx-auto">
-        <button
-          class="btn btn-primary"
-          id="send"
-          onclick="window.location.href = `/user/${getElementById('userId').value}`"
+      <div class="mt-8 flex flex-col content-center">
+        <a class="link-secondary underline decoration-1" href="/airdrop"
+          >...or Airdrop to many social accounts</a
         >
-          <Icon class="w-6" name="carbon:send-alt-filled" />Send</button
+      </div>
+      <div class="mt-8 flex flex-col content-center">
+        <a
+          class="link-secondary underline decoration-1"
+          href="https://dune.com/corbpage/future-wallet-tracker"
+          target="_blank">...or view all n00b wallets on Dune</a
         >
-        <button
-          class="btn btn-primary"
-          onclick="window.location.href = `/airdrop`"
-          ><Icon class="w-6" name="icon-park-outline:hot-air-balloon" />Airdrop
-        </button>
       </div>
     </div>
   </div>
@@ -37,7 +34,7 @@ import { Icon } from "astro-icon";
 <style>
   :root {
     --astro-gradient: linear-gradient(0deg, #4f39fa, #da62c4);
-    --lensmo-gradient: linear-gradient(0deg, #01dfa8, #b9db48);
+    --lensmo-gradient: linear-gradient(0deg, #01dfa8, #b9db48, #01dda7);
   }
 
   .text-gradient {
