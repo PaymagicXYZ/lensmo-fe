@@ -32,7 +32,6 @@ export const getTokenPortfolio = async (
       quote: number;
       contract_name: string;
     }) => {
-      console.log(item);
       return {
         token: item.contract_ticker_symbol,
         tokenImg: item.logo_url,
