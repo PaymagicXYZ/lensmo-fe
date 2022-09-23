@@ -23,7 +23,7 @@ const SimpleDisperse = (props: {
   return (
     <button
       className="btn btn-primary"
-      disabled={!write || isLoading || isSuccess}
+      disabled={!write}
       onClick={() => write?.()}
     >
       {isSuccess
@@ -113,36 +113,37 @@ export const DisperseApproval = (props: {
   const { write, data, isLoading, isSuccess } = useContractWrite(config);
   return (
     <>
-      {isSuccess && (
+      {isSuccess ? (
         <SimpleDisperse
           token={props.token}
           spender={props.spender}
           addresses={props.addresses}
           valueArray={props.valueArray}
         />
+      ) : (
+        <button
+          className="btn btn-primary"
+          id="approve-status"
+          disabled={!write || isLoading || isSuccess}
+          onClick={() => write?.()}
+        >
+          {isSuccess ? (
+            <>
+              Approval Success{" "}
+              <div
+                className="tooltip"
+                data-tip={`Transaction: ${JSON.stringify(data)}`}
+              >
+                ℹ️
+              </div>
+            </>
+          ) : isLoading ? (
+            "Waiting for approval..."
+          ) : (
+            "Confirm"
+          )}
+        </button>
       )}
-      <button
-        className="btn btn-primary"
-        id="approve-status"
-        disabled={!write || isLoading || isSuccess}
-        onClick={() => write?.()}
-      >
-        {isSuccess ? (
-          <>
-            Approval Success{" "}
-            <div
-              className="tooltip"
-              data-tip={`Transaction: ${JSON.stringify(data)}`}
-            >
-              ℹ️
-            </div>
-          </>
-        ) : isLoading ? (
-          "Waiting for approval..."
-        ) : (
-          "Confirm"
-        )}
-      </button>
     </>
   );
 };
