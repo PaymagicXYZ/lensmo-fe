@@ -8,7 +8,7 @@ import {
 import { Balance } from "../Web3/Balance";
 import { TransferERC20 } from "../Web3/Transfer";
 import { getWallet } from "../../../utils/getWallet";
-import { useTokenPortfolio } from "../Web3/hooks/useTokenPortfolio";
+import { useTokenPortfolio } from "../../hooks/useTokenPortfolio";
 import { SelectToken } from "../Inputs/SelectToken";
 
 const Wallet = () => {
