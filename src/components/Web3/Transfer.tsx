@@ -25,15 +25,57 @@ const TransferWrite = (props: {
       props.config
     );
     fn = sendTransaction;
+    return (
+      <TransferDisplay
+        fn={sendTransaction}
+        isLoading={isLoading}
+        isSuccess={isSuccess}
+        error={props.error}
+      />
+    );
   } else {
-    const { write } = useContractWrite(props.config);
+    const { data, isLoading, isSuccess, write } = useContractWrite(
+      props.config
+    );
     fn = write;
+    return (
+      <TransferDisplay
+        fn={write}
+        isLoading={isLoading}
+        isSuccess={isSuccess}
+        error={props.error}
+      />
+    );
   }
+};
+
+const TransferDisplay = (props: {
+  fn: any;
+  isLoading: boolean;
+  isSuccess: boolean;
+  error: any;
+}) => {
+  const { fn, isLoading, isSuccess } = props;
   return (
     <>
-      <button className="btn btn-primary" disabled={!fn} onClick={() => fn?.()}>
-        Confirm
-      </button>
+      {isLoading ? (
+        <div className="flex justify-center items-center">
+          <div className="animate-spin radial-progress">
+            <span className="hidden">Loading...</span>
+          </div>
+        </div>
+      ) : (
+        <button
+          className="btn btn-primary"
+          disabled={!fn || isSuccess}
+          onClick={(e) => {
+            e.preventDefault();
+            fn?.();
+          }}
+        >
+          {isSuccess ? "Success" : "Confirm"}
+        </button>
+      )}
       {props.error && (
         <div className="collapse">
           <input type="checkbox" />
@@ -89,7 +131,13 @@ export const TransferERC20 = (props: {
       return <TransferWrite config={config} error={error} />;
     }
   } else {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center">
+        <div className="animate-spin radial-progress radial-progress">
+          <span className="hidden">Loading...</span>
+        </div>
+      </div>
+    );
   }
 };
 

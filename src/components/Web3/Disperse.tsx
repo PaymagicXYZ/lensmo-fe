@@ -86,7 +86,13 @@ export const DisperseTokens = (props: {
       </>
     );
   } else {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center">
+        <div className="animate-spin radial-progress">
+          <span className="hidden">Loading...</span>
+        </div>
+      </div>
+    );
   }
 };
 

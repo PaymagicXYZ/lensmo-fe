@@ -12,6 +12,7 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
 // import missingAccountImage from "/missing-account.png";
 import { checkWallet } from "../../../utils/getWallet";
 const wallet = await checkWallet(Astro.url.pathname.split("/")[2]);
+
 // import { LoggedInAs } from "../../components/Accounts/User";
 ---
 

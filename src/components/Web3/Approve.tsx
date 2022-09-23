@@ -84,6 +84,12 @@ export const ApproveERC20 = (props: {
     });
     return <ApproveWrite config={config} error={error} />;
   } else {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center">
+        <div className="animate-spin radial-progress">
+          <span className="hidden">Loading...</span>
+        </div>
+      </div>
+    );
   }
 };
