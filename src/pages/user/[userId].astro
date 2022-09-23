@@ -12,7 +12,7 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
 // import missingAccountImage from "/missing-account.png";
 import { checkWallet } from "../../../utils/getWallet";
 const wallet = await checkWallet(Astro.url.pathname.split("/")[2]);
-import Portfolio from "../../components/Accounts/Portfolio.astro";
+import {Portfolio} from "../../components/Accounts/Portfolio";
 // import { LoggedInAs } from "../../components/Accounts/User";
 ---
 
@@ -75,7 +75,7 @@ import Portfolio from "../../components/Accounts/Portfolio.astro";
                     View Wallet
                   </a>
                 </h4>
-                <Portfolio wallet={wallet} />
+                <Portfolio wallet={wallet} client:idle/>
               ) : (
                 <div
                   class="tooltip"

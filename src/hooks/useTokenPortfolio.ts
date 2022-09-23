@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-type TokenPortfolio = {
+export type TokenPortfolio = {
   token: string;
   tokenImg: string;
   contractAddress: string;
