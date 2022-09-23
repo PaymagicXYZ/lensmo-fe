@@ -37,9 +37,10 @@ const Wallet = () => {
         body: JSON.stringify({
           username,
           message,
-          id,
+          amount: id,
           from: address,
           recipient: wallet,
+          token: selectedNFT.contract,
         }),
       });
     });

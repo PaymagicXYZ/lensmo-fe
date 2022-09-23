@@ -40,6 +40,7 @@ const Wallet = () => {
           amount,
           from: address,
           recipient: wallet,
+          token: tokenOptions.find((t) => t.contractAddress === token)?.token,
         }),
       });
     });
