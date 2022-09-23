@@ -2,12 +2,16 @@
 import Layout from "../../layouts/Layout.astro";
 import { AirDropTabs } from "../../components/AirDrop/AirDropTabs";
 import { Connect } from "../../components/Web3/Connect";
+import { Icon } from "astro-icon";
 ---
 
 <Layout title="Lensmo-User">
   <div
     class="card bg-base-100 shadow-xl p-6 mx-auto w-full flex flex-col content-center"
   >
+    <a href="/" class="basis-1/2">
+      <Icon name="eva:arrow-back-fill" class="w-8" />
+    </a>
     <div class="flex flex-col">
       <Connect client:only="react" />
       <h1 class="leading-none mx-auto mt-2">Airdrop</h1>
