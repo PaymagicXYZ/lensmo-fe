@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Search from "../components/Search/Search.astro";
-import { Icon } from "astro-icon";
+import { Feeds } from "../components/Feed/Feeds";
 ---
 
 <Layout title="Welcome to Lensmo.">
@@ -30,6 +30,7 @@ import { Icon } from "astro-icon";
       </div>
     </div>
   </div>
+  <Feeds client:idle />
 </Layout>
 <style>
   :root {
