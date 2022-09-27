@@ -32,7 +32,7 @@ export const AirDropToken = () => {
 
 const AirDropTokenDisplay = () => {
   const { chain } = useNetwork();
-  const { address, isConnecting, isDisconnected } = useAccount();
+  const { address } = useAccount();
   const [token, setToken] = useState("add");
   const [showIndividual, setShowIndividual] = useState(false);
   const [recipients, setRecipients] = useState<
@@ -106,7 +106,7 @@ const AirDropTokenDisplay = () => {
             tokenOptions={tokenOptions}
             hideAmount={true}
           />
-          {token !== "add" && (
+          {token !== "add" && address && (
             <span className="label-text text-gray-400">
               <Balance address={address} token={token} />
             </span>
