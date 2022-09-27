@@ -17,6 +17,7 @@
     "astro-icon": "^0.7.3",
     "ethers": "^5.7.0",
     "numeral": "^2.0.6",
+    "moment": "^2.29.4",
     "postcss": "^8.4.16",
     "react-select": "^5.4.0",
     "wagmi": "^0.6.4"
