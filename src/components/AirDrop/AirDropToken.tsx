@@ -159,14 +159,14 @@ export const AirDropToken = () => {
           </div>
         )}
       </div>
-      {token !== "add" && recipients.length > 0 && (
+      {address && token !== "add" && recipients.length > 0 && (
         <a onClick={handleApprove} className="btn btn-primary">
           Approve {amount}{" "}
           {tokenOptions.filter((t) => t.contractAddress == token)[0].token} for
           airdrop
         </a>
       )}
-      {parsedTx.to.length > 0 && disperseContract && address && (
+      {address && parsedTx.to.length > 0 && disperseContract && address && (
         <DisperseTokens
           token={token}
           owner={address}
