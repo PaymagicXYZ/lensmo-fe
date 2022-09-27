@@ -11,6 +11,28 @@ import { DisperseTokens } from "../Web3/Disperse";
 export const AirDropToken = () => {
   const { chain } = useNetwork();
   const { address, isConnecting, isDisconnected } = useAccount();
+  return (
+    <>
+      {address ? (
+        <AirDropTokenDisplay />
+      ) : (
+        <div className="card w-full bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Airdrop Token</h2>
+            {isConnecting && <div>Connecting...</div>}
+            {isDisconnected && (
+              <div>Please connect your wallet to continue.</div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+const AirDropTokenDisplay = () => {
+  const { chain } = useNetwork();
+  const { address, isConnecting, isDisconnected } = useAccount();
   const [token, setToken] = useState("add");
   const [showIndividual, setShowIndividual] = useState(false);
   const [recipients, setRecipients] = useState<
@@ -76,97 +98,93 @@ export const AirDropToken = () => {
     <div className="card w-full bg-base-100 shadow-xl">
       <div className="card-body">
         <h2 className="card-title">Airdrop Token</h2>
-        {isConnecting && <div>Connecting...</div>}
-        {isDisconnected && <div>Please connect your wallet to continue.</div>}
-        {address && (
-          <div>
-            <h2>Select Your Token</h2>
-            <SelectToken
-              token={token}
-              setToken={setToken}
-              tokenOptions={tokenOptions}
-              hideAmount={true}
-            />
-            {token !== "add" && (
-              <span className="label-text text-gray-400">
-                <Balance address={address} token={token} />
-              </span>
-            )}
-            <textarea
-              id="bulkInput"
-              placeholder='e.g. [{"user":"twitter:elonmusk","amount":"1"}, {"user":"github:yyx990803","amount":"1"}]'
-              className="textarea h-24 textarea-bordered w-full"
-            />
-            {recipients &&
-              recipients.map((tx, i) => (
-                <div key={i}>
-                  <span
-                    style={{
-                      color: "red",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => {
-                      delete recipients[i];
-                      setRecipients(recipients.filter((r) => r !== undefined));
-                    }}
-                  >
-                    ×
-                  </span>
-                  Recipient{i + 1}:<p key={i}>{JSON.stringify(tx)}</p>{" "}
-                </div>
-              ))}
-            <p
-              onClick={() => {
-                setShowIndividual(!showIndividual);
-              }}
-            >
-              {showIndividual ? <span>&darr;</span> : <span>&rarr;</span>}
-              Add Individual Recipients
-            </p>
-            {showIndividual && (
-              <>
-                <h2>Recipients</h2>
-                <form onSubmit={handleSubmit}>
-                  <label className="input-group">
-                    <span>User</span>
-                    <input
-                      type="text"
-                      placeholder="platform:username"
-                      className="input input-bordered"
-                    />
-                  </label>
-                  <label className="input-group">
-                    <span>Amount</span>
-                    <input
-                      type="number"
-                      placeholder="enter your amount"
-                      className="input input-bordered"
-                    />
-                  </label>
-                  <button type="submit" className="btn btn-primary ">
-                    Add
-                  </button>
-                </form>
-              </>
-            )}
-            <button
-              onClick={handleStart}
-              className="btn btn-primary w-full"
-              disabled={token == "add"}
-            >
-              Parse JSON
-            </button>
-          </div>
-        )}
+        <div>
+          <h2>Select Your Token</h2>
+          <SelectToken
+            token={token}
+            setToken={setToken}
+            tokenOptions={tokenOptions}
+            hideAmount={true}
+          />
+          {token !== "add" && (
+            <span className="label-text text-gray-400">
+              <Balance address={address} token={token} />
+            </span>
+          )}
+          <textarea
+            id="bulkInput"
+            placeholder='e.g. [{"user":"twitter:elonmusk","amount":"1"}, {"user":"github:yyx990803","amount":"1"}]'
+            className="textarea h-24 textarea-bordered w-full"
+          />
+          {recipients &&
+            recipients.map((tx, i) => (
+              <div key={i}>
+                <span
+                  style={{
+                    color: "red",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    delete recipients[i];
+                    setRecipients(recipients.filter((r) => r !== undefined));
+                  }}
+                >
+                  ×
+                </span>
+                Recipient{i + 1}:<p key={i}>{JSON.stringify(tx)}</p>{" "}
+              </div>
+            ))}
+          <p
+            onClick={() => {
+              setShowIndividual(!showIndividual);
+            }}
+          >
+            {showIndividual ? <span>&darr;</span> : <span>&rarr;</span>}
+            Add Individual Recipients
+          </p>
+          {showIndividual && (
+            <>
+              <h2>Recipients</h2>
+              <form onSubmit={handleSubmit}>
+                <label className="input-group">
+                  <span>User</span>
+                  <input
+                    type="text"
+                    placeholder="platform:username"
+                    className="input input-bordered"
+                  />
+                </label>
+                <label className="input-group">
+                  <span>Amount</span>
+                  <input
+                    type="number"
+                    placeholder="enter your amount"
+                    className="input input-bordered"
+                  />
+                </label>
+                <button type="submit" className="btn btn-primary ">
+                  Add
+                </button>
+              </form>
+            </>
+          )}
+          <button
+            onClick={handleStart}
+            className="btn btn-primary w-full"
+            disabled={token == "add"}
+          >
+            Parse JSON
+          </button>
+        </div>
       </div>
-      {address && token !== "add" && recipients.length > 0 && (
+      {token !== "add" && recipients.length > 0 && (
         <a onClick={handleApprove} className="btn btn-primary">
           Approve {amount}{" "}
           {tokenOptions.filter((t) => t.contractAddress == token)[0].token} for
           airdrop
         </a>
       )}
-      {address && parsedTx.to.length > 0 && disperseContract && address && (
+      {parsedTx.to.length > 0 && disperseContract && address && (
         <DisperseTokens
           token={token}
           owner={address}
