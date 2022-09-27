@@ -4,6 +4,8 @@ export interface Props {
 }
 
 const { title } = Astro.props;
+import Alert from "./Alert.astro";
+import Footer from "./Footer.astro";
 ---
 
 <!DOCTYPE html>
@@ -16,8 +18,14 @@ const { title } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
+    <Alert />
     <main>
-      <slot />
+      <div
+        class="card bg-base-100 shadow-xl p-6 mx-auto w-full flex flex-col content-center"
+      >
+        <slot />
+        <Footer />
+      </div>
     </main>
     <style>
       :root {
@@ -40,25 +48,11 @@ const { title } = Astro.props;
       body {
         height: 100%;
         margin: 0;
-        /* background-color: #4158d0; */
         background-color: #21c098;
         background-image: url("../background-cover.png");
         background-size: cover;
         background-size: contain;
         min-height: 100vh;
-        /* background-image: linear-gradient(
-          45deg,
-          #01dda7 0%,
-          #c8fa25 57%,
-          #ffffff 100%
-        ); */
-
-        /* background-image: linear-gradient(
-          43deg,
-          #4158d0 0%,
-          #c850c0 46%,
-          #aef80d 100%
-        ); */
       }
     </style>
 

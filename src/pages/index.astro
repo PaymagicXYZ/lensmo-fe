@@ -5,29 +5,20 @@ import { Icon } from "astro-icon";
 ---
 
 <Layout title="Welcome to Lensmo.">
-  <div class="card bg-base-100 shadow-xl h-full mx-auto w-full">
-    <div class="card-body flex flex-col content-center overflow-y-scroll">
-      <div class="mb-4 flex flex-col content-center">
-        <h1 class="leading-none mx-auto mt-2">
-          <span class="text-gradient">Lensmo</span>
-        </h1>
-        <h3 class="mx-auto mt-2 text-slate-500">
-          Send NFTs/tokens to any social account, no wallet required
-        </h3>
-      </div>
-      <Search />
-      <div class="mt-8 flex flex-col content-center">
-        <a class="link-secondary underline decoration-1" href="/airdrop"
-          >...or Airdrop to many social accounts</a
-        >
-      </div>
-      <div class="mt-8 flex flex-col content-center">
-        <a
-          class="link-secondary underline decoration-1"
-          href="https://dune.com/corbpage/noob-wallet-tracker"
-          target="_blank">...or view all n00b wallets on Dune</a
-        >
-      </div>
+  <div class="card-body flex flex-col content-center">
+    <div class="mb-4 flex flex-col content-center">
+      <h1 class="leading-none mx-auto mt-2">
+        <span class="text-gradient">Lensmo</span>
+      </h1>
+      <h3 class="mx-auto mt-2 text-slate-500">
+        Send NFTs/tokens to any social account, no wallet required
+      </h3>
+    </div>
+    <Search />
+    <div class="mt-8 flex flex-col content-center">
+      <a class="link-secondary underline decoration-1" href="/airdrop"
+        >...or Airdrop to many social accounts</a
+      >
     </div>
   </div>
 </Layout>
