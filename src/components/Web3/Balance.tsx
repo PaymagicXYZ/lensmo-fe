@@ -1,4 +1,5 @@
 import { useBalance } from "wagmi";
+import numeral from "numeral";
 
 export const Balance = (props: { address: string; token: string }) => {
   const { data, isError, isLoading } =
@@ -16,7 +17,7 @@ export const Balance = (props: { address: string; token: string }) => {
       {isError &&
         "An error occurred loading your balance. Please double check your contract address."}
       {data &&
-        `Balance: ${Number(data.formatted).toPrecision(3)} ${data.symbol}`}
+        `Balance: ${numeral(data.formatted).format("0,0.00")} ${data.symbol}`}
     </>
   );
 };

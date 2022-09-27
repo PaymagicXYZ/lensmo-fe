@@ -16,6 +16,7 @@
     "astro": "^1.1.5",
     "astro-icon": "^0.7.3",
     "ethers": "^5.7.0",
+    "numeral": "^2.0.6",
     "postcss": "^8.4.16",
     "react-select": "^5.4.0",
     "wagmi": "^0.6.4"
@@ -24,6 +25,7 @@
     "@astrojs/react": "^1.1.1",
     "@astrojs/tailwind": "^1.0.0",
     "@astrojs/vercel": "^1.0.2",
+    "@types/numeral": "^2.0.2",
     "@types/react": "^18.0.20",
     "daisyui": "^2.25.0",
     "prettier": "^2.7.1",

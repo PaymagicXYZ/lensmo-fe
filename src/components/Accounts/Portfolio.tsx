@@ -4,6 +4,7 @@ import {
   TokenPortfolio,
 } from "../../hooks/useTokenPortfolio";
 import { utils } from "ethers";
+import numeral from "numeral";
 
 export const Portfolio = (props: {
   wallet: string;
@@ -55,7 +56,7 @@ export const Portfolio = (props: {
                     {utils.formatUnits(token.balance, token.decimals)}
                     <br />
                     <span className="badge badge-ghost badge-sm">
-                      ${token.quote.toPrecision(2)}
+                      {numeral(token.quote).format("$0,0.00")}
                     </span>
                   </td>
                 </tr>
