@@ -22,7 +22,7 @@ export const HandleDisperse = (props: {
   return (
     <button
       className="btn btn-primary"
-      // disabled={!write || isLoading || isSuccess}
+      disabled={!write || isLoading || isSuccess}
       onClick={() => write?.()}
     >
       {isSuccess
@@ -50,36 +50,37 @@ export const DisperseNFT = (props: {
   const { write, data, isLoading, isSuccess } = useContractWrite(config);
   return (
     <>
-      {/* {isSuccess && ( */}
-      <HandleDisperse
-        NFTContract={props.NFTContract}
-        spender={props.spender}
-        addresses={props.addresses}
-        idArray={props.idArray}
-      />
-      {/* )} */}
-      <button
-        className="btn btn-primary"
-        id="approve-status"
-        disabled={!write || isLoading || isSuccess}
-        onClick={() => write?.()}
-      >
-        {isSuccess ? (
-          <>
-            Approval Success{" "}
-            <div
-              className="tooltip"
-              data-tip={`Transaction: ${JSON.stringify(data)}`}
-            >
-              ℹ️
-            </div>
-          </>
-        ) : isLoading ? (
-          "Waiting for approval..."
-        ) : (
-          "Confirm"
-        )}
-      </button>
+      {isSuccess ? (
+        <HandleDisperse
+          NFTContract={props.NFTContract}
+          spender={props.spender}
+          addresses={props.addresses}
+          idArray={props.idArray}
+        />
+      ) : (
+        <button
+          className="btn btn-primary"
+          id="approve-status"
+          disabled={!write || isLoading || isSuccess}
+          onClick={() => write?.()}
+        >
+          {isSuccess ? (
+            <>
+              Approval Success{" "}
+              <div
+                className="tooltip"
+                data-tip={`Transaction: ${JSON.stringify(data)}`}
+              >
+                ℹ️
+              </div>
+            </>
+          ) : isLoading ? (
+            "Waiting for approval..."
+          ) : (
+            "Confirm"
+          )}
+        </button>
+      )}
     </>
   );
 };

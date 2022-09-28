@@ -75,6 +75,10 @@ export const AirDropNFT = () => {
                 rightIcon={<button type="submit">Add</button>}
               />
             </form>
+            {NFTContract &&
+              `${NFTContract.substring(0, 4)}...${NFTContract.substring(
+                NFTContract.length - 4
+              )}`}
             <textarea
               id="bulkInput"
               placeholder='e.g. [{"user":"twitter:elonmusk","id":"1"}, {"user":"github:yyx990803","id":"2"}]'
@@ -142,7 +146,7 @@ export const AirDropNFT = () => {
           </div>
         )}
       </div>
-      {NFTContract !== "add" && recipients.length > 0 && (
+      {NFTContract !== "" && recipients.length > 0 && (
         <a onClick={handleApprove} className="btn btn-primary">
           Approve NFTs for Airdrop
         </a>
