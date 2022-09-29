@@ -17,7 +17,7 @@ export const Portfolio = (props: {
       setPortfolio(portfolio);
       setIsLoading(false);
     });
-  });
+  }, []);
   return (
     <div className="overflow-x-auto w-full">
       {isLoading ? (
@@ -37,8 +37,8 @@ export const Portfolio = (props: {
           <tbody>
             {portfolio
               .filter((t) => t.balance > 0)
-              .map((token) => (
-                <tr>
+              .map((token, Key) => (
+                <tr key={Key}>
                   <td>
                     <div className="flex items-center space-x-3">
                       <div className="avatar">
