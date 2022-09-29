@@ -5,6 +5,7 @@ import { Input } from "../Inputs/Input";
 import { NFTCollection } from "../Web3/NFTCollection";
 import { TransferERC721 } from "../Web3/Transfer";
 import { getWallet } from "../../../utils/getWallet";
+import { lensMsg } from "../../nanostores/lensMsg";
 
 const chainForCenterChainName = {
   matic: "polygon-mainnet",
@@ -32,16 +33,13 @@ const Wallet = () => {
       document.getElementById("username")!.textContent?.trim() || "";
     getWallet(username).then((wallet) => {
       setDestinationAddress(wallet);
-      fetch("https://eoy89exhwmio8s8.m.pipedream.net/", {
-        method: "POST",
-        body: JSON.stringify({
-          username,
-          message,
-          amount: id,
-          from: address,
-          recipient: wallet,
-          token: selectedNFT.contract,
-        }),
+      lensMsg.set({
+        username,
+        message,
+        amount: id,
+        from: address,
+        recipient: wallet,
+        token: selectedNFT.contract,
       });
     });
   };

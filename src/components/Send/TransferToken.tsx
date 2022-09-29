@@ -10,6 +10,7 @@ import { TransferERC20 } from "../Web3/Transfer";
 import { getWallet } from "../../../utils/getWallet";
 import { useTokenPortfolio } from "../../hooks/useTokenPortfolio";
 import { SelectToken } from "../Inputs/SelectToken";
+import { lensMsg } from "../../nanostores/lensMsg";
 
 const Wallet = () => {
   const { address, isConnecting, isDisconnected } = useAccount();
@@ -32,16 +33,13 @@ const Wallet = () => {
       document.getElementById("username")!.textContent?.trim() || "";
     getWallet(username).then((wallet) => {
       setDestinationAddress(wallet);
-      fetch("https://eoy89exhwmio8s8.m.pipedream.net/", {
-        method: "POST",
-        body: JSON.stringify({
-          username,
-          message,
-          amount,
-          from: address,
-          recipient: wallet,
-          token: tokenOptions.find((t) => t.contractAddress === token)?.token,
-        }),
+      lensMsg.set({
+        username,
+        message,
+        amount,
+        from: address,
+        recipient: wallet,
+        token: tokenOptions.find((t) => t.contractAddress === token)?.token,
       });
     });
   };

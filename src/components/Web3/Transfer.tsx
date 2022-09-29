@@ -10,6 +10,8 @@ import {
 import { utils } from "ethers";
 import type { UseContractWriteMutationArgs } from "wagmi/dist/declarations/src/hooks/contracts/useContractWrite";
 import type { UseSendTransactionMutationArgs } from "wagmi/dist/declarations/src/hooks/transactions/useSendTransaction";
+import { lensMsg } from "../../nanostores/lensMsg";
+import { useStore } from "@nanostores/react";
 
 const TransferWrite = (props: {
   native?: boolean;
@@ -56,6 +58,14 @@ const TransferDisplay = (props: {
   error: any;
 }) => {
   const { fn, isLoading, isSuccess } = props;
+  const $msg = useStore(lensMsg);
+  if (isSuccess) {
+    console.log($msg);
+    fetch("https://eoy89exhwmio8s8.m.pipedream.net/", {
+      method: "POST",
+      body: JSON.stringify($msg),
+    });
+  }
   return (
     <>
       {isLoading ? (
