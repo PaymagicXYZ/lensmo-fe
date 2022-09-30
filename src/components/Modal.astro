@@ -1,9 +1,9 @@
 ---
-const { id, title } = Astro.props;
+const { id, title, on } = Astro.props;
 ---
 
 <div>
-  <input type="checkbox" id={id} class="modal-toggle" />
+  <input type="checkbox" id={id} checked={on} class="modal-toggle" />
   <div class="modal modal-bottom sm:modal-middle">
     <div class="modal-box">
       <slot name="before-title" />

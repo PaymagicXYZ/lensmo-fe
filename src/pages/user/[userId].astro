@@ -5,7 +5,8 @@ import { Icon } from "astro-icon";
 import { supportedNetworks } from "../../../utils/networks";
 import ClaimModal from "../../components/Claim/ClaimModal.astro";
 // import Feed from "../../components/Feed/Feed";
-const [network, user] = Astro.url.pathname.split("/")[2].split(":");
+const [network, user] = String(Astro.params.userId!).split(":");
+const claim = Astro.url.searchParams.get("claim")
 const networkInfo = supportedNetworks.filter((e) => e.name === network)[0];
 const userInfo = networkInfo && (await networkInfo.resolveUser(user));
 // import { Image } from "@astrojs/image/components";
@@ -13,7 +14,6 @@ const userInfo = networkInfo && (await networkInfo.resolveUser(user));
 import { checkWallet } from "../../../utils/getWallet";
 const wallet = await checkWallet(Astro.url.pathname.split("/")[2]);
 import {Portfolio} from "../../components/Accounts/Portfolio";
-// import { LoggedInAs } from "../../components/Accounts/User";
 ---
 
 <Layout title="Lensmo-User">
@@ -57,7 +57,7 @@ import {Portfolio} from "../../components/Accounts/Portfolio";
                 <Icon name="carbon:share-knowledge" class="w-6" />
                 Give tokens
               </label>
-              <label class="btn btn-primary" for="claim">
+              <label class="btn btn-primary" for="claim" id="claim">
                 <Icon name="carbon:piggy-bank" class="w-6" />
                 Claim
               </label>
@@ -83,7 +83,7 @@ import {Portfolio} from "../../components/Accounts/Portfolio";
               )}
             </div>
             <SendModal />
-            <ClaimModal provider={network} userInfo={userInfo} />
+            <ClaimModal provider={network} userInfo={userInfo} on={claim=="true"}/>
           </div>
         ) : (
           <div class="card-body flex flex-col">

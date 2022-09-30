@@ -8,7 +8,7 @@ const signInWith = (provider: Provider, userName?: string) => async () => {
     },
     {
       redirectTo: userName
-        ? `https://lensmo.xyz/user/${userName}`
+        ? `https://lensmo.xyz/user/${userName}?claim=true`
         : "https://lensmo.xyz/user/",
     }
   );

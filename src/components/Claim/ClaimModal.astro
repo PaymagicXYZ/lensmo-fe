@@ -1,10 +1,10 @@
 ---
-const { provider, userInfo } = Astro.props;
+const { provider, userInfo, on } = Astro.props;
 import Modal from "../Modal.astro";
 import { VerifiedUser } from "../Accounts/User";
 ---
 
-<Modal title="Sign in to claim" id="claim">
+<Modal title="Sign in to claim" on={on} id="claim">
   <div class="btn-group btn-group-vertical">
     <VerifiedUser
       provider={provider}
