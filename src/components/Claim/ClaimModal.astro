@@ -4,7 +4,7 @@ import Modal from "../Modal.astro";
 import { VerifiedUser } from "../Accounts/User";
 ---
 
-<Modal title="Sign in to claim" on={on} id="claim">
+<Modal title="Sign in to claim" id="claim" on={on}>
   <div class="btn-group btn-group-vertical">
     <VerifiedUser
       provider={provider}
