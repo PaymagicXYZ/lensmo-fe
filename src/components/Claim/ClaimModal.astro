@@ -6,6 +6,11 @@ import { VerifiedUser } from "../Accounts/User";
 
 <Modal title="Sign in to claim" id="claim">
   <div class="btn-group btn-group-vertical">
-    <VerifiedUser provider={provider} userInfo={userInfo} client:only="react" />
+    <VerifiedUser
+      provider={provider}
+      userInfo={userInfo}
+      userName={String(Astro.url.pathname.split("/")[2])}
+      client:only="react"
+    />
   </div>
 </Modal>

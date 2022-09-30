@@ -40,35 +40,45 @@ const handleClaim = (newOwnerAddress: string) => {
     .catch((error) => console.log("error", error));
 };
 
-export const VerifiedUser = (props: { provider: string; userInfo: any }) => {
-  console.log(user);
+export const VerifiedUser = (props: {
+  provider: string;
+  userInfo: any;
+  userName?: string;
+}) => {
   if (user) {
     return (
       <div>
-        <h5>Logged in as {user.email}</h5>
         {user.identities &&
         user.identities.filter(
           (identity) =>
             identity.provider === props.provider &&
             identity.identity_data.name === props.userInfo.name
         ).length > 0 ? (
-          <form onSubmit={handleSubmit}>
-            Eligible to claim
-            <input
-              type="text"
-              name="newOwnerAddress"
-              placeholder="Enter your wallet address"
-              className="input input-bordered w-full max-w-xs"
-            />
-            <input className="btn btn-primary" value="Claim" type="submit" />
-          </form>
+          <>
+            {props.userName && <h5>Logged in as {props.userName}</h5>}
+            <form onSubmit={handleSubmit}>
+              Eligible to claim
+              <input
+                type="text"
+                name="newOwnerAddress"
+                placeholder="Enter your wallet address"
+                className="input input-bordered w-full max-w-xs"
+              />
+              <input className="btn btn-primary" value="Claim" type="submit" />
+            </form>
+          </>
         ) : (
           <p>You are not eligible to claim this account</p>
         )}
       </div>
     );
   } else {
-    return <SignInWithProvider provider={props.provider as Provider} />;
+    return (
+      <SignInWithProvider
+        provider={props.provider as Provider}
+        userName={props.userName}
+      />
+    );
   }
 };
 
