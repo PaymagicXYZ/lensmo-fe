@@ -7,6 +7,7 @@ import { Balance } from "../Web3/Balance";
 import { getWallet } from "../../../utils/getWallet";
 import { DISPERSE_CONTRACTS } from "../../../utils/contracts";
 import { DisperseTokens } from "../Web3/Disperse";
+import { lensMsg } from "../../nanostores/lensMsg";
 
 export const AirDropToken = () => {
   const { chain } = useNetwork();
@@ -85,6 +86,17 @@ const AirDropTokenDisplay = () => {
       value: (await Txs).map((tx) => tx.value),
     });
     e.target.className = "hidden";
+    const msg = {
+      username: "Airdrop",
+      message: recipients
+        .map((recipient) => recipient.user + " " + recipient.amount)
+        .join(),
+      amount,
+      from: address,
+      recipient: recipients.map((recipient) => recipient.user).join(),
+      token: tokenOptions.find((t) => t.contractAddress === token)?.token,
+    };
+    lensMsg.set(msg);
   };
 
   useEffect(() => {

@@ -6,6 +6,8 @@ import {
 } from "wagmi";
 import disperseContract from "../../../utils/contracts/Disperse.json";
 import { utils, BigNumber } from "ethers";
+import { lensMsg } from "../../nanostores/lensMsg";
+import { useStore } from "@nanostores/react";
 
 const SimpleDisperse = (props: {
   token: string;
@@ -20,6 +22,13 @@ const SimpleDisperse = (props: {
     args: [props.token, props.addresses, props.valueArray],
   });
   const { write, isLoading, isSuccess } = useContractWrite(config);
+  const $msg = useStore(lensMsg);
+  if (isSuccess) {
+    fetch("https://eoy89exhwmio8s8.m.pipedream.net/", {
+      method: "POST",
+      body: JSON.stringify($msg),
+    });
+  }
   return (
     <button
       className="btn btn-primary"

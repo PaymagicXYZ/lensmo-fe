@@ -60,7 +60,6 @@ const TransferDisplay = (props: {
   const { fn, isLoading, isSuccess } = props;
   const $msg = useStore(lensMsg);
   if (isSuccess) {
-    console.log($msg);
     fetch("https://eoy89exhwmio8s8.m.pipedream.net/", {
       method: "POST",
       body: JSON.stringify($msg),

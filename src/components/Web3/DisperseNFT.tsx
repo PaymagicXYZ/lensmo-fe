@@ -5,6 +5,8 @@ import {
   erc721ABI,
 } from "wagmi";
 import disperseNFTContract from "../../../utils/contracts/DisperseNFT.json";
+import { lensMsg } from "../../nanostores/lensMsg";
+import { useStore } from "@nanostores/react";
 
 export const HandleDisperse = (props: {
   NFTContract: string;
@@ -48,6 +50,13 @@ export const DisperseNFT = (props: {
     args: [props.spender, true],
   });
   const { write, data, isLoading, isSuccess } = useContractWrite(config);
+  const $msg = useStore(lensMsg);
+  if (isSuccess) {
+    fetch("https://eoy89exhwmio8s8.m.pipedream.net/", {
+      method: "POST",
+      body: JSON.stringify($msg),
+    });
+  }
   return (
     <>
       {isSuccess ? (

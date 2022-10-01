@@ -4,6 +4,7 @@ import { getWallet } from "../../../utils/getWallet";
 import { DISPERSENFT_CONTRACTS } from "../../../utils/contracts";
 import { DisperseNFT } from "../Web3/DisperseNFT";
 import { Input } from "../Inputs/Input";
+import { lensMsg } from "../../nanostores/lensMsg";
 
 export const AirDropNFT = () => {
   const { chain } = useNetwork();
@@ -57,6 +58,17 @@ export const AirDropNFT = () => {
       id: (await Txs).map((tx) => Number(tx.id)),
     });
     e.target.className = "hidden";
+    const msg = {
+      username: "Airdrop",
+      message: recipients
+        .map((recipient) => recipient.user + " " + recipient.id)
+        .join(),
+      amount: recipients.length,
+      from: address,
+      recipient: recipients.map((recipient) => recipient.user).join(),
+      token: "NFT:" + NFTContract.substring(0, 4) + "...",
+    };
+    lensMsg.set(msg);
   };
 
   return (
