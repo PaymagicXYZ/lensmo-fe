@@ -1,5 +1,22 @@
 import { ethers } from "ethers";
 
+const email = {
+  name: "email",
+  logo: "icon-park:email-down",
+  apiKey: null,
+  apiUrl: null,
+  url: "mailto:",
+  get resolveUser() {
+    return (userName: string) => {
+      return {
+        name: userName.split("@")[0],
+        description: userName,
+        image: "/email.png",
+      };
+    };
+  },
+};
+
 const twitter = {
   name: "twitter",
   logo: "icon-park:twitter",
@@ -186,7 +203,7 @@ export const lens = {
   },
 };
 
-export const supportedNetworks = [twitter, github, discord, ens, lens];
-export const availableProviders = supportedNetworks.map((network) => {
-  network.name;
-});
+export const supportedNetworks = [email, twitter, github, discord, ens, lens];
+export const availableProviders: string[] = supportedNetworks.map((network) =>
+  String(network.name)
+);
