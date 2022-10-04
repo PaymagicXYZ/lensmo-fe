@@ -1,6 +1,7 @@
 import { SignInWithProvider } from "../Claim/SignIn";
 import type { Provider } from "@supabase/supabase-js";
 import supabase from "../../../utils/supabaseClient";
+import { useEffect, useState } from "react";
 const availableProviders: Provider[] = ["twitter", "github", "discord"];
 const user = supabase.auth.user();
 export const LoggedInAs = () => {
@@ -45,11 +46,16 @@ export const VerifiedUser = (props: {
   userInfo: any;
   userName?: string;
 }) => {
-  if (user) {
+  const [currentUser, setCurrentUser] = useState(user);
+  useEffect(() => {
+    const getUser = supabase.auth.user();
+    setCurrentUser(getUser);
+  }, []);
+  if (currentUser) {
     return (
       <div>
-        {user.identities &&
-        user.identities.filter(
+        {currentUser.identities &&
+        currentUser.identities.filter(
           (identity) =>
             identity.provider === props.provider &&
             identity.identity_data.name === props.userInfo.name
