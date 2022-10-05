@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { SignInWithProvider } from "../Claim/SignIn";
 import type { Provider } from "@supabase/supabase-js";
 import supabase from "../../../utils/supabaseClient";
@@ -46,8 +47,13 @@ export const VerifiedUser = (props: {
   userName?: string;
   on?: boolean;
 }) => {
+  const [currentUser, setCurrentUser] = useState(supabase.auth.user());
   if (props.on) {
-    const currentUser = supabase.auth.user();
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event == "SIGNED_IN") {
+        setCurrentUser(session!.user);
+      }
+    });
     return currentUser ? (
       <div>
         {currentUser.identities &&
