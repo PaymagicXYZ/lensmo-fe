@@ -45,12 +45,15 @@ export const VerifiedUser = (props: {
   provider: string;
   userInfo: any;
   userName?: string;
+  on?: boolean;
 }) => {
   const [currentUser, setCurrentUser] = useState(user);
   useEffect(() => {
-    const getUser = supabase.auth.user();
-    setCurrentUser(getUser);
-  }, []);
+    if (props.on) {
+      const getUser = supabase.auth.user();
+      setCurrentUser(getUser);
+    }
+  }, [props.on]);
   if (currentUser) {
     return (
       <div>
